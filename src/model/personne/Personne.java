@@ -1,31 +1,68 @@
 package model.personne;
 
-import model.Moteur;
 import model.implement.IDeplacable;
 import model.objet.ObjetCollision;
 
 public class Personne extends ObjetCollision implements IDeplacable {
-	private int _vitesse;
-	private String _nom;
-	public Moteur _unnamed_Moteur_;
+	/**
+	 * vitesse
+	 */
+	private int vitesse;
+	/**
+	 * nom
+	 */
+	private String nom;
 
+	/**
+	 * Constructeur de personne
+	 */
+	public Personne(int vitesse, String nom) {
+		super();
+		this.vitesse = vitesse;
+		this.nom = nom;
+	}
+
+	/**
+	 * getteur de vitesse
+	 * 
+	 * @return vitesse
+	 */
 	public int getVitesse() {
-		return this._vitesse;
+		return vitesse;
 	}
 
-	public void setVitesse(int aVitesse) {
-		this._vitesse = aVitesse;
+	/**
+	 * setteur de vitesse
+	 * 
+	 * @param vitesse
+	 */
+
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;
 	}
 
+	/**
+	 * getteur de nom
+	 * 
+	 * @return nom
+	 */
 	public String getNom() {
-		return this._nom;
+		return nom;
 	}
 
-	public void setNom(String aNom) {
-		this._nom = aNom;
+	/**
+	 * setteur de nom
+	 * 
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
-	public void deplacer(Object aDirection direction) {
-		throw new UnsupportedOperationException();
+	@Override
+	public void deplacer(Object aDirection_direction) {
+		// TODO Auto-generated method stub
+
 	}
+
 }
