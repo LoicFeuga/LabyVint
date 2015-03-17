@@ -1,5 +1,7 @@
 package controleur;
-import model.Launch;
+
+import javax.swing.JFrame;
+
 import model.Moteur;
 import model.parser.ParserJSON;
 import vue.Vue;

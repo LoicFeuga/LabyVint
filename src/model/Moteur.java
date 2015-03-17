@@ -1,4 +1,5 @@
 package model;
+import java.util.Observable;
 import java.util.Vector;
 
 import model.personne.Personne;
