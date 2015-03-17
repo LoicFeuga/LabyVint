@@ -24,7 +24,7 @@ public class ObjetCollision {
 	/**
 	 * Nombre total d'objet 
 	 */
-	private static int nbTotalObjet = 0;
+	private static int nbTotalObjet = 1;
 
 	/**
 	 * Constructeur par défaut
@@ -32,8 +32,6 @@ public class ObjetCollision {
 	public ObjetCollision() {
 		id = nbTotalObjet;
 		incrementNbTotal();
-		
-		
 	}
 
 	/**
@@ -76,16 +74,54 @@ public class ObjetCollision {
 		this.id = aId;
 	}
 
+	/**
+	 * Méthode qui permet de savoir combien d'objetCollision
+	 *   ont été créer.
+	 * Attention ce n'est pas les tableaux, 
+	 *   4 = 4 objet créer 
+	 *  
+	 * @return
+	 */
 	public int getNbTotalObjet() {
-		return this.nbTotalObjet;
+		return this.nbTotalObjet - 1;
 	}
 
 	public void setNbTotalObjet(int aNbTotalObjet) {
 		this.nbTotalObjet = aNbTotalObjet;
 	}
 
-	public void setPosition(Point aPosition) {
-		//set hit box
+	/**
+	 * Déplacement de la position de la hitBox 
+	 *   donc de la position du joueur, ennemis ou objet
+	 *   
+	 * @param aPosition
+	 */
+	public void setPosition(Point op) {
+		Point p1 = new Point((int) hitBox.getX(),(int) hitBox.getY());
+		
+		int diffX = 0;
+		int diffY = 0;
+		
+		if(op.getX() >= p1.getX()){
+			diffX = (int) (op.getX() - p1.getX());
+			hitBox.setRect(p1.getX() + diffX, p1.getY(),hitBox.getWidth(), hitBox.getHeight());
+		}else{
+			diffX = (int) (p1.getX() - op.getX());
+			hitBox.setRect(p1.getX() - diffX, p1.getY(),hitBox.getWidth(), hitBox.getHeight());
+
+		}
+
+		if(op.getY() >= p1.getY()){
+			diffX = (int) (op.getY() - p1.getY());
+			hitBox.setRect(p1.getX(), p1.getY() + diffY,hitBox.getWidth(), hitBox.getHeight());
+
+		}
+		else{
+			diffX = (int) (p1.getY()-op.getY());
+			hitBox.setRect(p1.getX(), p1.getY() - diffY,hitBox.getWidth(), hitBox.getHeight());
+		}
+		
+		
 	}
 	
 	/**
@@ -94,6 +130,16 @@ public class ObjetCollision {
 	 */
 	public void setHitBox(Rectangle rect){
 		this.hitBox = rect;
+	}
+	
+	/**
+	 * Obligatoire avant de mettre à supprimer toutes les références
+	 *  vers cette objet
+	 */
+	public void supprimer(){
+		nbTotalObjet--;
+		hitBox = null;
+		id = 0;
 	}
 	
 	public Rectangle getHitBox(){

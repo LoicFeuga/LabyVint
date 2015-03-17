@@ -49,6 +49,29 @@ public class T_ObjetCollision_U1 {
 		assertTrue(o3.isTouch(o2));
 	}
 	
+	@Test
+	public void getPosition(){
+		assertEquals(new Point(15,15),o1.getPosition());
+		assertEquals(new Point(35,25),o2.getPosition());
+		assertEquals(new Point(25,20),o3.getPosition());
+	}
+	
+	@Test
+	public void getNbTotal(){
+		assertEquals(3,o1.getNbTotalObjet());
+		ObjetCollision o1 = new ObjetCollision();
+		assertEquals(4,o1.getNbTotalObjet());
+		ObjetCollision o2 = new ObjetCollision();
+		assertEquals(5,o1.getNbTotalObjet());
+		ObjetCollision o3 = new ObjetCollision();
+		assertEquals(6,o1.getNbTotalObjet());
+		o1.supprimer();
+		assertEquals(5,o1.getNbTotalObjet());
+		o2.supprimer();
+		assertEquals(4,o1.getNbTotalObjet());
+		o3.supprimer();
+		assertEquals(3,o1.getNbTotalObjet());
+	}
 	
 
 }
