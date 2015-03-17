@@ -73,5 +73,21 @@ public class T_ObjetCollision_U1 {
 		assertEquals(3,o1.getNbTotalObjet());
 	}
 	
+	@Test
+	public void setPosition(){
+		o1.setPosition(new Point(35,15));
+		assertEquals(new Point(35,15),o1.getPosition());
+		o1.setPosition(new Point(10,10));
+		assertEquals(new Point(10,10),o1.getPosition());
+		assertEquals(new Point(35,25),o2.getPosition());
+		assertEquals(new Point(25,20),o3.getPosition());
+	}
+	
 
+	@After
+	public void delete(){
+		o1.supprimer();
+		o2.supprimer();
+		o3.supprimer();
+	}
 }

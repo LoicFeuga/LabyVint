@@ -24,7 +24,7 @@ public class ObjetCollision {
 	/**
 	 * Nombre total d'objet 
 	 */
-	private static int nbTotalObjet = 1;
+	private static int nbTotalObjet = 0;
 
 	/**
 	 * Constructeur par défaut
@@ -83,7 +83,7 @@ public class ObjetCollision {
 	 * @return
 	 */
 	public int getNbTotalObjet() {
-		return this.nbTotalObjet - 1;
+		return this.nbTotalObjet;
 	}
 
 	public void setNbTotalObjet(int aNbTotalObjet) {
@@ -101,23 +101,26 @@ public class ObjetCollision {
 		
 		int diffX = 0;
 		int diffY = 0;
+		//hitBox.setRect(op.getX()+(hitBox.getWidth()/2),op.getY()+(hitBox.getHeight()/2),hitBox.getWidth(), hitBox.getHeight());
+
 		
 		if(op.getX() >= p1.getX()){
-			diffX = (int) (op.getX() - p1.getX());
-			hitBox.setRect(p1.getX() + diffX, p1.getY(),hitBox.getWidth(), hitBox.getHeight());
+			diffX = (int) ((int) (op.getX() - p1.getX()) - (hitBox.getWidth() / 2));			
+			hitBox.setRect((p1.getX() + diffX) , p1.getY(),hitBox.getWidth(), hitBox.getHeight());
+			p1.setLocation(p1.getX() + diffX, p1.getY());
 		}else{
-			diffX = (int) (p1.getX() - op.getX());
+			diffX = (int) ((int) (p1.getX() - op.getX()) + (hitBox.getWidth() / 2)) ;
 			hitBox.setRect(p1.getX() - diffX, p1.getY(),hitBox.getWidth(), hitBox.getHeight());
-
+			p1.setLocation(p1.getX() - diffX, p1.getY());
 		}
 
 		if(op.getY() >= p1.getY()){
-			diffX = (int) (op.getY() - p1.getY());
+			diffY = (int) ((int) (op.getY() - p1.getY()) - (hitBox.getHeight() /2 ));
 			hitBox.setRect(p1.getX(), p1.getY() + diffY,hitBox.getWidth(), hitBox.getHeight());
-
+		
 		}
 		else{
-			diffX = (int) (p1.getY()-op.getY());
+			diffY = (int) ((int) (p1.getY() - op.getY()) + (hitBox.getWidth() / 2)) ;
 			hitBox.setRect(p1.getX(), p1.getY() - diffY,hitBox.getWidth(), hitBox.getHeight());
 		}
 		
