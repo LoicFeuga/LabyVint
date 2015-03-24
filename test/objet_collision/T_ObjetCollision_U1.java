@@ -21,15 +21,13 @@ public class T_ObjetCollision_U1 {
 	
 	@Before 
 	public void init(){
-		o1 = new ObjetCollision();
-		o2 = new ObjetCollision();
-		o3 = new ObjetCollision();
 		r1 = new Rectangle(new Point(10,10),new Dimension(10,10));
 		r2 = new Rectangle(new Point(30,20),new Dimension(10,10));
 		r3 = new Rectangle(new Point(15,15),new Dimension(20,10));
-		o1.setHitBox(r1);
-		o2.setHitBox(r2);
-		o3.setHitBox(r3);
+
+		o1 = new ObjetCollision(r1);
+		o2 = new ObjetCollision(r2);
+		o3 = new ObjetCollision(r3);
 	}
 	
 	@Test
@@ -59,11 +57,11 @@ public class T_ObjetCollision_U1 {
 	@Test
 	public void getNbTotal(){
 		assertEquals(3,o1.getNbTotalObjet());
-		ObjetCollision o1 = new ObjetCollision();
+		ObjetCollision o1 = new ObjetCollision(r1);
 		assertEquals(4,o1.getNbTotalObjet());
-		ObjetCollision o2 = new ObjetCollision();
+		ObjetCollision o2 = new ObjetCollision(r2);
 		assertEquals(5,o1.getNbTotalObjet());
-		ObjetCollision o3 = new ObjetCollision();
+		ObjetCollision o3 = new ObjetCollision(r3);
 		assertEquals(6,o1.getNbTotalObjet());
 		o1.supprimer();
 		assertEquals(5,o1.getNbTotalObjet());
