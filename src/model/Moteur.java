@@ -46,10 +46,6 @@ public class Moteur extends Observable {
 			joueur.annulerDeplacement();
 		}
 	}
-	
-	public boolean canMoveToNewDirection(Rectangle hitBox){
-		return carte.canMoveToNewDirection(hitBox);
-	}
 
 
 }
