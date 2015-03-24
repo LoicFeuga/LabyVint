@@ -13,7 +13,7 @@ public class CreerImageGrille {
 	
 	public static int TAILLE_CARRE = 50; 
 	public static final String NOM =  "data\\image\\map\\Map";
-	public static final String FORMAT =  "jpg";
+	public static final String FORMAT =  "bmp";
 	
 	public static void main(String[] args) {
 		//Fond
