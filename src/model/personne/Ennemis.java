@@ -11,8 +11,8 @@ public class Ennemis extends Personne {
 	 * @param vitesse
 	 * @param nom
 	 */
-	public Ennemis(int vitesse, String nom, Rectangle hitBox) {
-		super(vitesse, nom, hitBox);
+	public Ennemis(int vitesse, Rectangle hitBox) {
+		super(vitesse, "Ennemis", hitBox);
 	}
 
 	/**

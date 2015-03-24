@@ -13,15 +13,16 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	/**
 	 * nom
 	 */
-	private String nom;
+	private String pseudo;
 
 	/**
 	 * Constructeur de personne
 	 */
-	public Personne(int vitesse, String nom, Rectangle hitBox) {
-		super(hitBox);
+	public Personne(int vitesse, String pseudo, Rectangle hitBox) {
+		super(hitBox,"Joueur");
 		this.vitesse = vitesse;
-		this.nom = nom;
+		this.pseudo = pseudo;
+		
 	}
 
 	/**
@@ -48,17 +49,17 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	 * 
 	 * @return nom
 	 */
-	public String getNom() {
-		return nom;
+	public String getPseudo() {
+		return pseudo;
 	}
 
 	/**
 	 * setteur de nom
 	 * 
-	 * @param nom
+	 * @param pseudo
 	 */
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
 	}
 
 	@Override
