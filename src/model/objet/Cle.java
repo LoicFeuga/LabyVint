@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 public class Cle extends Objet {
 
 	public Cle(Rectangle hitBox) {
-		super(hitBox,"Cle");
+		super(hitBox,Type.Cle.name());
 
 	}
 }

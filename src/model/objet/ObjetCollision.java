@@ -2,6 +2,7 @@ package model.objet;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.HashMap;
 
 /**
  * Class ObjetCollision, 
@@ -10,6 +11,10 @@ import java.awt.Rectangle;
  * 
  * 
  * @author Loïc Feuga
+ * 
+ * @version V0.0.1 Nicoletti Sébastien
+ * 	- Ajout de la méthode createObjetCollision.
+ *  - Ajout de l'enum Type.
  *
  */
 public class ObjetCollision {
@@ -42,7 +47,7 @@ public class ObjetCollision {
 		id = nbTotalObjet;
 		incrementNbTotal();
 		this.hitBox = hitBox;	
-		this.nom = "ObjetCollision";
+		this.nom = Type.ObjetCollision.name();
 	}
 	/**
 	 * Méthode qui permet de savoir si un objet est touché par un  
@@ -182,5 +187,44 @@ public class ObjetCollision {
 	
 	public void setNom(String nom){
 		this.nom = nom;
+	}
+	
+	/**
+	 * 
+	 * Permet de créer un objet collision avec un hashmap de description.
+	 * 
+	 * le Hashmap: -> "x" -> long
+	 *          	  "y" -> long
+	 *          	  "largeur" -> long
+	 *          	  "hauteur" -> long
+	 *          	  "type" -> String
+	 * 
+	 * @param descObj
+	 * @return ObjetCollision
+	 */
+	public static ObjetCollision createObjetCollision(HashMap<String, Object> descObj){
+		if( descObj == null || descObj.isEmpty()){
+			return null;
+		}
+		
+		String type = (String)descObj.get("type");
+		long x = 0, y = 0, largeur = 0, hauteur = 0;
+		if( descObj.containsKey("x") ) x = (long)descObj.get("x");
+		if( descObj.containsKey("y") ) y = (long)descObj.get("y");
+		if( descObj.containsKey("largeur") )largeur = (long)descObj.get("largeur");
+		if( descObj.containsKey("hauteur") )hauteur = (long)descObj.get("hauteur");
+		
+		Rectangle rect = new Rectangle( (int)x, (int)y, (int)largeur, (int)hauteur);
+		
+		if( Type.Bloc.name().equals(type) )return new Bloc(rect);
+		if( Type.Cle.name().equals(type) )return new Cle(rect);
+		if( Type.Mur.name().equals(type) )return new Mur(rect);
+		
+		return new ObjetCollision(rect);
+	}
+	
+	////////////////////////////////////ENUM
+	public enum Type{
+		ObjetCollision, Bloc, Cle, Mur;
 	}
 }

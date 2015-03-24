@@ -10,7 +10,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * The Class CreerImageGrille.
+ * la Class CreerImageGrille.
+ * 
+ * Elle permet de creer une grille en image.
+ * 
+ * @author Nicoletti Sébastien
  */
 public class CreerImageGrille {
 

@@ -1,91 +1,180 @@
 package controleur;
 
-import java.awt.Image;
-import java.awt.Point;
+import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import jeu.Parser;
 import model.Direction;
 import model.Moteur;
 import model.objet.ObjetCollision;
-import model.parser.ParserJSON;
+import model.objet.ObjetCollision.Type;
 import model.personne.Joueur;
-import vue.Vue;
+import vue.CarteVue;
+import vue.Mur;
 
+/**
+ * Le controleur
+ * 
+ * @author  Feuga Loïc, Nicoletti Sébastien,
+ */
 public class Controleur {
+	
+	private static final String CHEMIN_MAP = "data/testjson.json";
+	
+	//CONTROLEUR
+	private ListenerTouche touche;
+	
+	//VUE
 	private JFrame fenetre;
-	private Vue vue;
-	private ParserJSON parserJSON;
-
+	private CarteVue vue;
+	
+	//MOTEUR
 	private Moteur moteur;
 
-	public Controleur() {
-		//parser de la carte;
-		ArrayList<ObjetCollision> list = new ArrayList();
-		Joueur joueur = new Joueur(1,"c",new Rectangle());
-		//HashMap<Point, BufferedImage> listImage = new HashMap<>();
+	public Controleur(String nomJoueur) {
 		
-		ArrayList<Image> listImage = new ArrayList<>();
+		HashMap<String, Object> jsonHashMap = initJson(CHEMIN_MAP);
+		List<ObjetCollision> listObj = getListObjetCollision(jsonHashMap);
+		HashMap<Integer, JPanel> listPanel = toListPanel(listObj); 
 		
-		//json
-		String jsonString = VFichier.chargementFichierTexte("data/testjson.txt");
-		HashMap jsonHashMap = Parser.jsonDecoding(jsonString);
-		
-		//ajout image
-		Image image = null;
-		
-		try {image = ImageIO.read(new File("data/image/mur.png"));}
-		catch (IOException e) { e.printStackTrace();}
-		
-		listImage.add(image);
-		
-		//init
-		vue = new Vue(listImage,jsonHashMap);
-		moteur = new Moteur(list,joueur);
-		
-		ListenerTouche touche = new ListenerTouche(this);
+		// init
+		initMoteur(listObj, nomJoueur);
+		initVue(listPanel);
 
-		fenetre = new JFrame("LabyVint");
-		fenetre.setSize(500,500);
-		//fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.addKeyListener(touche);
-
-		fenetre.setContentPane(vue);
-		fenetre.setVisible(true);
 	}
-	
-	public void moveLeft(){
+
+	public void moveLeft() {
 		moteur.getJoueur().deplacer(Direction.OUEST);
 		moteur.update();
 	}
-	
-	public void moveRight(){
+
+	public void moveRight() {
 		moteur.getJoueur().deplacer(Direction.EST);
 		moteur.update();
 	}
-	
-	public void moveUp(){
+
+	public void moveUp() {
 		moteur.getJoueur().deplacer(Direction.NORD);
 		moteur.update();
 	}
-	public void moveDown(){
+
+	public void moveDown() {
 		moteur.getJoueur().deplacer(Direction.SUD);
 		moteur.update();
 	}
 
-	public void initVue() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Permet d'initialiser la fenetre et la carte
+	 * 
+	 */
+	private void initVue(HashMap<Integer, JPanel> listPanel) {
+		//Frame
+		fenetre = new JFrame("LabyVint");
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		fenetre.setSize((int)(dim.getWidth()), (int)(dim.getHeight()));
+		fenetre.setLocationRelativeTo(null);
+		
+		//Vue
+		vue = new CarteVue(listPanel);
+		fenetre.setContentPane(vue);
+		
+		//listener
+		touche = new ListenerTouche(this);
+		fenetre.addKeyListener(touche);
+		
+		//init
+		fenetre.setVisible(true);
 	}
 
-	public void initMoteur() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Permet d'initialiser le moteur.
+	 * 
+	 * @param nomJoueur
+	 * @param listObj
+	 */
+	private void initMoteur(List<ObjetCollision> listObj, String nomJoueur) {
+		Joueur joueur = new Joueur(1, nomJoueur, new Rectangle());
+		moteur = new Moteur((ArrayList<ObjetCollision>)listObj, joueur);
+	}
+	
+	/**
+	 * 
+	 * Retourne un HashMap decrivant la carte qui se situe dans 
+	 * le fichier dont le chemin est "chemin".
+	 * 
+	 * @return Hashmap
+	 * Hashmap: "nbCaseLargeur" -> long
+	 * 			"nbCaseHauteur" -> long
+	 *          "carte" -> List<Hashmap>
+	 *          	- le Hashmap: -> "x" -> long
+	 *          					 "y" -> long
+	 *          					 "largeur" -> long
+	 *          					 "hauteur" -> long
+	 *          					 "type" -> String
+	 * 
+	 * 
+	 */
+	private HashMap<String, Object> initJson(String chemin){
+		String json = VFichier.chargementFichierTexte(chemin);
+		
+		if( json == null || json.isEmpty() ){
+			System.err.println("ERROR: Controleur.initJson | chargement du fichier:" + CHEMIN_MAP );
+		}
+		
+		return Parser.jsonDecoding(json);
+	}
+	
+	/**
+	 * Permet de récupérer la liste des objets collisions
+	 * du hashmap qui décrit la carte.
+	 * 
+	 * @param hm
+	 * @return  List<ObjetCollision>
+	 */
+	@SuppressWarnings("unchecked")
+	private List<ObjetCollision> getListObjetCollision(HashMap<String, Object> hm){
+		if( hm == null || hm.isEmpty() ){
+			return null;
+		}
+		
+		List<ObjetCollision> listObj = new ArrayList<>();
+		List<HashMap<String, Object>> carte = (List<HashMap<String, Object>>) hm.get("carte");
+		
+		for(int i = 0; i < carte.size(); i++){
+			HashMap<String, Object> descObj = carte.get(i);
+			ObjetCollision obj = ObjetCollision.createObjetCollision(descObj);
+			listObj.add(obj);
+		}
+		
+		return listObj;
+	}
+	
+	/**
+	 * Permet de  transformer la list des objets collisions
+	 * en une liste de Panel.
+	 * 
+	 * List de panel : HashMap<Id_Objet_Collision, JPanel> 
+	 * 
+	 * @param listObj
+	 * @return HashMap<Integer, JPanel>
+	 */
+	private HashMap<Integer, JPanel> toListPanel(List<ObjetCollision> listObj){
+		HashMap<Integer, JPanel> listPanel = new HashMap<>();
+		
+		for( ObjetCollision obj : listObj){
+			if( Type.Mur.name().equals(obj.getNom()) ){
+				listPanel.put(obj.getId(), new Mur(obj.getHitBox()) );
+			}
+		}
+		
+		return listPanel;
 	}
 }

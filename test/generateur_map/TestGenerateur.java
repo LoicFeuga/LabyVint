@@ -17,22 +17,21 @@ import model.objet.Mur;
 import model.objet.ObjetCollision;
 
 /**
- * The Class TestGenerateur.
+ * la Class TestGenerateur.
+ * 
+ * Elle permet de créer un fichier json à partir d'une grille
+ * créer par la class "CreerImageGrille"
+ * 
+ * @author Nicoletti Sébastien
  */
 public class TestGenerateur {
 
-	/** The image. */
 	private BufferedImage image = null;
 	
-	/** The nb case largeur. */
 	private int nbCaseLargeur;
 	
-	/** The nb case hauteur. */
 	private int nbCaseHauteur;
 
-	/**
-	 * Instantiates a new test generateur.
-	 */
 	public TestGenerateur() {
 		initImage();
 		List<ObjetCollision> listObjetC = initListCollision();
@@ -43,7 +42,6 @@ public class TestGenerateur {
 	}
 
 	/**
-	 * Inits the image.
 	 * 
 	 * Permet de chercher l'image de test.
 	 * 
@@ -62,7 +60,6 @@ public class TestGenerateur {
 	}
 
 	/**
-	 * Inits the list collision.
 	 * 
 	 * Permet de créer la liste des objets collisions.
 	 *
@@ -96,8 +93,6 @@ public class TestGenerateur {
 	}
 
 	/**
-	 * To json.
-	 * 
 	 * Permet de parser nos données en JSON
 	 * 
 	 * Hashmap: "nbCaseLargeur" -> long
@@ -136,7 +131,6 @@ public class TestGenerateur {
 	}
 
 	/**
-	 * Color to object collision.
 	 * 
 	 * Permet de traduire le code couleur en un objet collision.
 	 *
@@ -145,7 +139,7 @@ public class TestGenerateur {
 	 * @return the objet collision
 	 */
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
-		if (Type.MUR.getCouleur().equals(couleur)) {
+		if (Type.Mur.getCouleur().equals(couleur)) {
 			return new Mur(rect);
 		}
 
@@ -157,36 +151,19 @@ public class TestGenerateur {
 	 */
 	public enum Type {
 		
-		/** The mur. */
-		MUR(Color.black);
-
-		/** The couleur. */
+		Mur(Color.black);
+		
 		private Color couleur;
 
-		/**
-		 * Instantiates a new type.
-		 *
-		 * @param couleur the couleur
-		 */
 		Type(Color couleur) {
 			this.couleur = couleur;
 		}
 
-		/**
-		 * Gets the couleur.
-		 *
-		 * @return the couleur
-		 */
 		public Color getCouleur() {
 			return couleur;
 		}
 	}
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		new TestGenerateur();
 	}
