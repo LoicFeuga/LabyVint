@@ -26,15 +26,24 @@ public class ObjetCollision {
 	 */
 	private static int nbTotalObjet = 0;
 
+	protected String nom;
+	
 	/**
 	 * Constructeur par défaut
 	 */
+	public ObjetCollision(Rectangle hitBox,String nom) {
+		id = nbTotalObjet;
+		incrementNbTotal();
+		this.hitBox = hitBox;	
+		this.nom = nom;
+	}
+
 	public ObjetCollision(Rectangle hitBox) {
 		id = nbTotalObjet;
 		incrementNbTotal();
-		this.hitBox = hitBox;		
+		this.hitBox = hitBox;	
+		this.nom = "ObjetCollision";
 	}
-
 	/**
 	 * Méthode qui permet de savoir si un objet est touché par un  
 	 *   rectangle passé en paramètre
@@ -164,5 +173,14 @@ public class ObjetCollision {
 	 */
 	public void incrementNbTotal() {
 		nbTotalObjet++;
+	}
+	
+	
+	public String getPseudo(){
+		return nom;
+	}
+	
+	public void setPseudo(String nom){
+		this.nom = nom;
 	}
 }

@@ -6,17 +6,15 @@ import model.implement.IRamassable;
 
 public class Objet extends ObjetCollision implements IRamassable {
 	
-
-	protected String nom;
 	protected boolean estRamassable;
 	
 	
 	public Objet(Rectangle hitBox, String nom) {
-		super(hitBox);
+		super(hitBox, nom);
 		this.nom = nom;
 	}
 
-	public String getNom() {
+	public String getPseudo() {
 		return this.nom;
 	}
 
