@@ -1,5 +1,7 @@
 package model.personne;
 
+import java.awt.Rectangle;
+
 import model.implement.IDeplacable;
 import model.objet.ObjetCollision;
 
@@ -16,8 +18,8 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	/**
 	 * Constructeur de personne
 	 */
-	public Personne(int vitesse, String nom) {
-		super();
+	public Personne(int vitesse, String nom, Rectangle hitBox) {
+		super(hitBox);
 		this.vitesse = vitesse;
 		this.nom = nom;
 	}

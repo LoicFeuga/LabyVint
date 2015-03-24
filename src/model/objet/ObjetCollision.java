@@ -16,7 +16,7 @@ public class ObjetCollision {
 	/**
 	 * La hitBox de l'objet, un getter récupérera la position
 	 */
-	private Rectangle  hitBox;
+	private Rectangle hitBox;
 	/**
 	 * Identifiant
 	 */
@@ -29,9 +29,10 @@ public class ObjetCollision {
 	/**
 	 * Constructeur par défaut
 	 */
-	public ObjetCollision() {
+	public ObjetCollision(Rectangle hitBox) {
 		id = nbTotalObjet;
 		incrementNbTotal();
+		this.hitBox = hitBox;		
 	}
 
 	/**

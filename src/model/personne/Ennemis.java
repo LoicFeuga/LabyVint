@@ -1,5 +1,7 @@
 package model.personne;
 
+import java.awt.Rectangle;
+
 import model.Direction;
 
 public class Ennemis extends Personne {
@@ -9,8 +11,8 @@ public class Ennemis extends Personne {
 	 * @param vitesse
 	 * @param nom
 	 */
-	public Ennemis(int vitesse, String nom) {
-		super(vitesse, nom);
+	public Ennemis(int vitesse, String nom, Rectangle hitBox) {
+		super(vitesse, nom, hitBox);
 	}
 
 	/**

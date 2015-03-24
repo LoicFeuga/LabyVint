@@ -3,19 +3,22 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Vector;
 
+import model.objet.ObjetCollision;
 import model.personne.Joueur;
 import model.personne.Personne;
 import controleur.Controleur;
 
 public class Moteur extends Observable {
 
-	public ArrayList<Personne> listePersonne = new ArrayList<Personne>();
-	public Carte carte;
+	//private ArrayList<Personne> listePersonne = new ArrayList<Personne>();
+	private Joueur joueur;
+	private Carte carte;
 
-	public Moteur() {
-		carte = new Carte();
-		listePersonne = new ArrayList();
-		Joueur joueur = new Joueur(5,"Joueur");
+	public Moteur(ArrayList<ObjetCollision> list, Joueur joueur) {
+		carte = new Carte(list);
+		//listePersonne = new ArrayList();
+		this.joueur = joueur;
+		//listePersonne.add(j);
 	}
 
 	public void update() {

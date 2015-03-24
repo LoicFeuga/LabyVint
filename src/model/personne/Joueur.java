@@ -1,6 +1,8 @@
 package model.personne;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
+
 import model.Direction;
 import model.objet.Objet;
 
@@ -16,8 +18,8 @@ public class Joueur extends Personne {
 	 * @param vitesse de déplacement [0;10] 0 pour immobile, 5 normal
 	 * @param nom du joueur
 	 */
-	public Joueur(int vitesse, String nom) {
-		super(vitesse, nom);
+	public Joueur(int vitesse, String nom, Rectangle hitBox) {
+		super(vitesse, nom,hitBox);
 		listeObjet = new ArrayList<Objet>();
 	}
 

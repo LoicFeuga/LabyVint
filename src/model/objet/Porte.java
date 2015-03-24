@@ -1,8 +1,18 @@
 package model.objet;
 
+import java.awt.Rectangle;
+
 
 public class Porte extends Objet {
-	private Cle _serrure;
+
+	private Cle serrure;
+	
+	
+	public Porte(Rectangle hitBox) {
+		super(hitBox);
+
+	}
+
 
 	public void ouvrir() {
 		throw new UnsupportedOperationException();

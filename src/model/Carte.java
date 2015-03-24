@@ -1,6 +1,18 @@
 package model;
 
+import java.util.ArrayList;
+
+import model.objet.ObjetCollision;
+
+
 
 public class Carte {
-	public Moteur _unnamed_Moteur_;
+	private ArrayList<ObjetCollision> listObjetCollision;
+	
+	
+	public Carte(ArrayList<ObjetCollision> list){
+		this.listObjetCollision = list;
+		
+	}
+	
 }
