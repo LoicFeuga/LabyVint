@@ -176,7 +176,7 @@ public class ObjetCollision {
 	}
 	
 	
-	public String getNomt(){
+	public String getNom(){
 		return nom;
 	}
 	
