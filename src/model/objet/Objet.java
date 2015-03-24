@@ -3,18 +3,27 @@ package model.objet;
 import model.implement.IRamassable;
 
 public class Objet extends ObjetCollision implements IRamassable {
-	private String _nom;
-	private boolean _estRamassable;
+	protected String nom;
+	protected boolean estRamassable;
 
 	public String getNom() {
-		return this._nom;
+		return this.nom;
 	}
 
+	/**
+	 * Permet de ramasser l'objet support
+	 * 
+	 */
 	public Objet ramasser() {
-		throw new UnsupportedOperationException();
+		return this;
+				
 	}
 
+	/**
+	 * Permet de savoir si un objet est ramassable
+	 * 
+	 */
 	public boolean estRamassable() {
-		throw new UnsupportedOperationException();
+		return estRamassable;
 	}
 }

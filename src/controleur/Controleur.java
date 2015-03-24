@@ -7,14 +7,14 @@ import model.parser.ParserJSON;
 import vue.Vue;
 
 public class Controleur {
-	private JFrame _fenetre;
-	public Vue _vue;
-	public ParserJSON _unnamed_ParserJSON_;
-	public Launch _unnamed_Launch_;
-	public Moteur _unnamed_Moteur_;
+	private JFrame fenetre;
+	private Vue vue;
+	private ParserJSON parserJSON;
+
+	public Moteur moteur;
 
 	public void Controller() {
-		throw new UnsupportedOperationException();
+		 moteur = new Moteur();
 	}
 
 	public void initVue() {

@@ -13,8 +13,8 @@ public class Joueur extends Personne {
 
 	/**
 	 * Constructeur de Joueur
-	 * @param vitesse
-	 * @param nom
+	 * @param vitesse de déplacement [0;10] 0 pour immobile, 5 normal
+	 * @param nom du joueur
 	 */
 	public Joueur(int vitesse, String nom) {
 		super(vitesse, nom);

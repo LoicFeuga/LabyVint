@@ -5,7 +5,7 @@ import model.objet.ObjetCollision;
 
 public class Personne extends ObjetCollision implements IDeplacable {
 	/**
-	 * vitesse
+	 * vitesse de déplacement
 	 */
 	private int vitesse;
 	/**

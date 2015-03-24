@@ -9,7 +9,7 @@ import java.awt.Rectangle;
  *   objet, en lui attribuant une hitBox en rectangle.
  * 
  * 
- * @author user
+ * @author Loïc Feuga
  *
  */
 public class ObjetCollision {

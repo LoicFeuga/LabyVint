@@ -1,17 +1,21 @@
 package model;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Vector;
 
+import model.personne.Joueur;
 import model.personne.Personne;
 import controleur.Controleur;
 
 public class Moteur extends Observable {
-	public Controleur _unnamed_Controleur_;
-	public Vector<Personne> _listePersonne = new Vector<Personne>();
-	public Carte _unnamed_Carte_;
+
+	public ArrayList<Personne> listePersonne = new ArrayList<Personne>();
+	public Carte carte;
 
 	public Moteur() {
-		throw new UnsupportedOperationException();
+		carte = new Carte();
+		listePersonne = new ArrayList();
+		Joueur joueur = new Joueur(5,"Joueur");
 	}
 
 	public void update() {

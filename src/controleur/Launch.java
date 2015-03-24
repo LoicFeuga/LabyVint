@@ -2,10 +2,14 @@ package controleur;
 
 
 public class Launch {
-	private Controleur _controleur;
-	public Controleur _unnamed_Controleur_;
+	private Controleur controleur;
 
 	public Launch() {
-		throw new UnsupportedOperationException();
+
+		controleur = new Controleur();
+		
+	}
+	public static void main(String[] args) {
+		new Launch();
 	}
 }
