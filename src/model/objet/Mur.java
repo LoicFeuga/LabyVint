@@ -6,7 +6,7 @@ public class Mur extends Objet {
 	
 	 
 	public Mur(){
-		super(null);
+		super(new Rectangle(),"Mur");
 		this.estRamassable = false;
 	}
 	
@@ -16,16 +16,11 @@ public class Mur extends Objet {
 	 * @param hitBox
 	 */
 	public Mur(Rectangle hitBox){
-		super(hitBox);
+		super(hitBox,"Mur");
 		this.estRamassable = false;
 		
 	}
-	
-	public Mur(String nom, boolean ramassable, Rectangle hitBox){
-		super(hitBox);
-		this.estRamassable = ramassable;
-		this.nom = nom;
-	}
+
 	
 	
 	

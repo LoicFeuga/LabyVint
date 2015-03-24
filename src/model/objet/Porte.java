@@ -9,7 +9,7 @@ public class Porte extends Objet {
 	
 	
 	public Porte(Rectangle hitBox) {
-		super(hitBox);
+		super(hitBox,"PORTE");
 
 	}
 

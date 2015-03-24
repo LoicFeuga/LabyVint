@@ -11,8 +11,9 @@ public class Objet extends ObjetCollision implements IRamassable {
 	protected boolean estRamassable;
 	
 	
-	public Objet(Rectangle hitBox) {
+	public Objet(Rectangle hitBox, String nom) {
 		super(hitBox);
+		this.nom = nom;
 	}
 
 	public String getNom() {
