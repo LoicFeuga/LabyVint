@@ -1,7 +1,6 @@
 package generateur_map;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import controleur.VFichier;
 import jeu.Parser;
 import model.objet.Mur;
 import model.objet.ObjetCollision;
@@ -27,6 +27,8 @@ public class TestGenerateur {
 		List<ObjetCollision> listObjetC = initListCollision();
 		String json = toJSON(listObjetC);
 		System.out.println(json);
+		
+		VFichier.sauvegardeFichierTexte(CreerImageGrille.NOM+".json", json);
 	}
 	
 	private void initImage(){
