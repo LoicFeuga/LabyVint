@@ -21,7 +21,15 @@ public class Moteur extends Observable {
 		//listePersonne.add(j);
 	}
 
+	/**
+	 * @return the joueur
+	 */
+	public Joueur getJoueur() {
+		return joueur;
+	}
+
 	public void update() {
-		throw new UnsupportedOperationException();
+		setChanged();
+		notifyObservers();
 	}
 }

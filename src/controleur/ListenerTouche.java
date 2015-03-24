@@ -17,12 +17,16 @@ public class ListenerTouche implements KeyListener{
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_LEFT){
 			System.out.println("left");
+			createur.moveLeft();
 		}else if(key == KeyEvent.VK_RIGHT){
 			System.out.println("right");
+			createur.moveRight();
 		}else if(key == KeyEvent.VK_DOWN){
 			System.out.println("down");
+			createur.moveDown();
 		}else if(key == KeyEvent.VK_UP){
 			System.out.println("up");
+			createur.moveUp();
 		}
 	}
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import model.Direction;
 import model.Moteur;
 import model.objet.ObjetCollision;
 import model.parser.ParserJSON;
@@ -42,18 +43,22 @@ public class Controleur {
 	}
 	
 	public void moveLeft(){
-		
+		moteur.getJoueur().deplacer(Direction.OUEST);
+		moteur.update();
 	}
 	
 	public void moveRight(){
-		
+		moteur.getJoueur().deplacer(Direction.EST);
+		moteur.update();
 	}
 	
 	public void moveUp(){
-		
+		moteur.getJoueur().deplacer(Direction.NORD);
+		moteur.update();
 	}
 	public void moveDown(){
-		
+		moteur.getJoueur().deplacer(Direction.SUD);
+		moteur.update();
 	}
 
 	public void initVue() {
