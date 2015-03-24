@@ -66,6 +66,15 @@ public class ObjetCollision {
 		Point p1 = new Point(d1,d2);
 		return p1;
 	}
+	
+	/**
+	 * Permet de récupérer le point en haut à gauche de la hitBox
+	 * @return
+	 */
+	public Point getDefaultPosition(){		
+		return new Point(hitBox.x, hitBox.y);
+	}
+	
 
 	public int getId() {
 		return this.id;
