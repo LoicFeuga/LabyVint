@@ -16,7 +16,7 @@ public class ObjetCollision {
 	/**
 	 * La hitBox de l'objet, un getter récupérera la position
 	 */
-	private Rectangle hitBox;
+	protected Rectangle hitBox;
 	/**
 	 * Identifiant
 	 */

@@ -12,6 +12,11 @@ public class Joueur extends Personne {
 	 * listeObjet
 	 */
 	private ArrayList<Objet> listeObjet;
+	
+	/**
+	 * Permet de garder en mémoire la dernière direction choisit
+	 */
+	private Direction derniereDirection;
 
 	/**
 	 * Constructeur de Joueur
@@ -24,11 +29,28 @@ public class Joueur extends Personne {
 	}
 
 	/**
-	 * Deplacement
+	 * Permet de se déplacer de direction 
 	 * @param direction
 	 */
 	public void deplacer(Direction direction) {
-		throw new UnsupportedOperationException();
+		derniereDirection = direction;
+		super.deplacer(direction);
+	}
+	
+	/**
+	 * Permet d'annuler le dernier déplacement en déplacement  dans 
+	 *   le sens inverse
+	 */
+	public void annulerDeplacement(){
+		if(derniereDirection == Direction.EST){
+			deplacer(Direction.OUEST);
+		}else if(derniereDirection == Direction.OUEST){
+			deplacer(Direction.EST);
+		}else if(derniereDirection == Direction.NORD){
+			deplacer(Direction.SUD);
+		}else if(derniereDirection == Direction.SUD){
+			deplacer(Direction.NORD);
+		}
 	}
 
 	/**

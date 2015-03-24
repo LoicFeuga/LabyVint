@@ -2,6 +2,7 @@ package model.personne;
 
 import java.awt.Rectangle;
 
+import model.Direction;
 import model.implement.IDeplacable;
 import model.objet.ObjetCollision;
 
@@ -63,9 +64,16 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	}
 
 	@Override
-	public void deplacer(Object aDirection_direction) {
-		// TODO Auto-generated method stub
-
+	public void deplacer(Direction direction) {
+		if(direction == Direction.EST){
+			hitBox.x+= 1 + vitesse;
+		}else if(direction == Direction.OUEST){
+			hitBox.x-= 1 - vitesse;
+		}else if(direction == Direction.NORD){
+			hitBox.y-= 1 - vitesse;
+		}else if(direction == Direction.SUD){
+			hitBox.y+= 1 + vitesse;
+		}
 	}
 
 }

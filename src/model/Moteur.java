@@ -1,5 +1,7 @@
 package model;
+import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -29,7 +31,25 @@ public class Moteur extends Observable {
 	}
 
 	public void update() {
-		setChanged();
-		notifyObservers();
+		//Si le joueur peux bouger
+		if(carte.canMoveToNewDirection(joueur.getHitBox())){
+			HashMap<String, HashMap<String, Object> >send = new HashMap();
+			HashMap<String, Object> description = new HashMap();
+			
+			description.put("point", joueur.getDefaultPosition());
+			description.put("id",joueur.getId());
+			
+			send.put("deplacer", description);
+			setChanged();
+			notifyObservers(send);
+		}else{
+			joueur.annulerDeplacement();
+		}
 	}
+	
+	public boolean canMoveToNewDirection(Rectangle hitBox){
+		return carte.canMoveToNewDirection(hitBox);
+	}
+
+
 }

@@ -1,5 +1,8 @@
 package model.implement;
+
+import model.Direction;
+
 public interface IDeplacable {
 
-	public void deplacer(Object aDirection_direction);
+	public void deplacer(Direction direction);
 }
