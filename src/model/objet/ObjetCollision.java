@@ -176,11 +176,11 @@ public class ObjetCollision {
 	}
 	
 	
-	public String getPseudo(){
+	public String getNomt(){
 		return nom;
 	}
 	
-	public void setPseudo(String nom){
+	public void setNom(String nom){
 		this.nom = nom;
 	}
 }
