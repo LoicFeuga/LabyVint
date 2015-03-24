@@ -3,7 +3,7 @@ package controleur;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javafx.scene.input.KeyCode;
+
 
 public class ListenerTouche implements KeyListener{
 	private Controleur createur;
