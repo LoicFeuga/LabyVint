@@ -1,7 +1,6 @@
 package controleur;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import model.objet.ObjetCollision.Type;
 import model.personne.Joueur;
 import vue.CarteVue;
 import vue.Mur;
+import vue.PanelImage;
 
 /**
  * Le controleur
@@ -26,7 +26,8 @@ import vue.Mur;
  */
 public class Controleur {
 	
-	private static final String CHEMIN_MAP = "data/testjson.json";
+	private static final String CHEMIN_MAP = "data/image/map/Map.json";
+	private static final String CHEMIN_IMAGE_JOUEUR = "data/image/joueur3.png";
 	
 	//CONTROLEUR
 	private ListenerTouche touche;
@@ -37,11 +38,12 @@ public class Controleur {
 	
 	//MOTEUR
 	private Moteur moteur;
+	private Joueur joueur;
 
 	public Controleur(String nomJoueur) {
 		
 		HashMap<String, Object> jsonHashMap = initJson(CHEMIN_MAP);
-		List<ObjetCollision> listObj = getListObjetCollision(jsonHashMap);
+		List<ObjetCollision> listObj = initObjetCollision(jsonHashMap);
 		HashMap<Integer, JPanel> listPanel = toListPanel(listObj); 
 		
 		// init
@@ -101,7 +103,7 @@ public class Controleur {
 	 * @param listObj
 	 */
 	private void initMoteur(List<ObjetCollision> listObj, String nomJoueur) {
-		Joueur joueur = new Joueur(1, nomJoueur, new Rectangle());
+		joueur.setPseudo(nomJoueur);
 		moteur = new Moteur((ArrayList<ObjetCollision>)listObj, joueur);
 	}
 	
@@ -134,13 +136,14 @@ public class Controleur {
 	
 	/**
 	 * Permet de récupérer la liste des objets collisions
-	 * du hashmap qui décrit la carte.
+	 * du hashmap qui décrit la carte et initialise 
+	 * le joueur.
 	 * 
 	 * @param hm
 	 * @return  List<ObjetCollision>
 	 */
 	@SuppressWarnings("unchecked")
-	private List<ObjetCollision> getListObjetCollision(HashMap<String, Object> hm){
+	private List<ObjetCollision> initObjetCollision(HashMap<String, Object> hm){
 		if( hm == null || hm.isEmpty() ){
 			return null;
 		}
@@ -151,6 +154,11 @@ public class Controleur {
 		for(int i = 0; i < carte.size(); i++){
 			HashMap<String, Object> descObj = carte.get(i);
 			ObjetCollision obj = ObjetCollision.createObjetCollision(descObj);
+			
+			if( Type.Joueur.name().equals(obj.getNom()) ){
+				joueur = (Joueur) obj;
+			}
+			
 			listObj.add(obj);
 		}
 		
@@ -173,6 +181,11 @@ public class Controleur {
 			if( Type.Mur.name().equals(obj.getNom()) ){
 				listPanel.put(obj.getId(), new Mur(obj.getHitBox()) );
 			}
+			else if( Type.Joueur.name().equals(obj.getNom()) ){
+				listPanel.put(obj.getId(), 
+						new PanelImage(CHEMIN_IMAGE_JOUEUR, obj.getHitBox()));
+			}
+			
 		}
 		
 		return listPanel;

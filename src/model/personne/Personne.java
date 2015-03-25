@@ -7,6 +7,9 @@ import model.implement.IDeplacable;
 import model.objet.ObjetCollision;
 
 public class Personne extends ObjetCollision implements IDeplacable {
+	
+	public static final int DEFAULT_VITESSE = 5;
+	
 	/**
 	 * vitesse de déplacement
 	 */

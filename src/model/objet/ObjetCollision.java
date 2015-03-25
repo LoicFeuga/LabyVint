@@ -4,6 +4,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
 
+import model.personne.Ennemis;
+import model.personne.Joueur;
+import model.personne.Personne;
+
 /**
  * Class ObjetCollision, 
  * Elle représente un objet qui peut entrer en collision avec un autre 
@@ -219,12 +223,15 @@ public class ObjetCollision {
 		if( Type.Bloc.name().equals(type) )return new Bloc(rect);
 		if( Type.Cle.name().equals(type) )return new Cle(rect);
 		if( Type.Mur.name().equals(type) )return new Mur(rect);
+		if( Type.Joueur.name().equals(type) )return new Joueur(Personne.DEFAULT_VITESSE, "DEFAULT",rect);
+		if( Type.Ennemis.name().equals(type) )return new Ennemis(Personne.DEFAULT_VITESSE, rect);
 		
 		return new ObjetCollision(rect);
 	}
 	
 	////////////////////////////////////ENUM
 	public enum Type{
-		ObjetCollision, Bloc, Cle, Mur;
+		ObjetCollision, Bloc, Cle, Mur,
+		Joueur, Ennemis;
 	}
 }
