@@ -32,6 +32,7 @@ public class Carte {
 	 */
 	public boolean canMoveToNewDirection(Rectangle hitBox){
 		for(int i = 0; i < listObjetCollision.size(); i++){
+			System.out.println(listObjetCollision.get(i).isTouch(hitBox));
 			if(listObjetCollision.get(i).isTouch(hitBox)){
 				return false;
 			}

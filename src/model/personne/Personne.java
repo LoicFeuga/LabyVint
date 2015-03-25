@@ -24,7 +24,7 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	 */
 	public Personne(int vitesse, String pseudo, Rectangle hitBox) {
 		super(hitBox,"Joueur");
-		this.vitesse = vitesse;
+		this.vitesse = vitesse*3;
 		this.pseudo = pseudo;
 		
 	}
@@ -68,15 +68,16 @@ public class Personne extends ObjetCollision implements IDeplacable {
 
 	@Override
 	public void deplacer(Direction direction) {
+		
 		if(direction == Direction.EST){
-			hitBox.x+= 1 + vitesse;
-			System.out.println("a");
+			hitBox.x+= vitesse;
 		}else if(direction == Direction.OUEST){
-			hitBox.x-= 1 - vitesse;
+
+			hitBox.x-= vitesse;
 		}else if(direction == Direction.NORD){
-			hitBox.y-= 1 - vitesse;
+			hitBox.y-= vitesse;
 		}else if(direction == Direction.SUD){
-			hitBox.y+= 1 + vitesse;
+			hitBox.y+= vitesse;
 		}
 	}
 
