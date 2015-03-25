@@ -30,9 +30,15 @@ public class Moteur extends Observable {
 		return joueur;
 	}
 
+	/**
+	 * 
+			//"deplacer"->"point"->Point(x,y);
+			//			->"id"->id
+	 */
 	public void update() {
 		//Si le joueur peux bouger
 		if(carte.canMoveToNewDirection(joueur.getHitBox())){
+			System.out.println("moteur->update");
 			HashMap<String, HashMap<String, Object> >send = new HashMap();
 			HashMap<String, Object> description = new HashMap();
 			

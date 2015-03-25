@@ -70,6 +70,7 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	public void deplacer(Direction direction) {
 		if(direction == Direction.EST){
 			hitBox.x+= 1 + vitesse;
+			System.out.println("a");
 		}else if(direction == Direction.OUEST){
 			hitBox.x-= 1 - vitesse;
 		}else if(direction == Direction.NORD){
