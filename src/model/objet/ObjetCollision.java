@@ -63,6 +63,10 @@ public class ObjetCollision {
 		return this.getHitBox().intersects(rect);
 	}
 	
+	public boolean isTouch(Point point) {
+		return this.getHitBox().contains(point);
+	}
+	
 	/**
 	 * Méthode qui permet de savoir si un objet est touché par un  
 	 *   autre objet passé en paramètre

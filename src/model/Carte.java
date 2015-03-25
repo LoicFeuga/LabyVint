@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -32,8 +33,7 @@ public class Carte {
 	 */
 	public boolean canMoveToNewDirection(Rectangle hitBox){
 		for(int i = 0; i < listObjetCollision.size(); i++){
-			System.out.println(listObjetCollision.get(i).isTouch(hitBox));
-			if(listObjetCollision.get(i).isTouch(hitBox)){
+			if(listObjetCollision.get(i).isTouch(new Point((int) ((int)hitBox.getX()+25.0),(int)hitBox.getY()+25))){
 				return false;
 			}
 		}

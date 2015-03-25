@@ -26,6 +26,7 @@ public class Joueur extends Personne {
 	public Joueur(int vitesse, String nom, Rectangle hitBox) {
 		super(vitesse, nom,hitBox);
 		listeObjet = new ArrayList<Objet>();
+		derniereDirection = Direction.NONE;
 	}
 
 	/**
@@ -67,5 +68,9 @@ public class Joueur extends Personne {
 	 */
 	public void utiliser(Objet objet) {
 		throw new UnsupportedOperationException();
+	}
+	
+	public Direction getDirection(){
+		return derniereDirection;
 	}
 }

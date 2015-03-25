@@ -24,7 +24,7 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	 */
 	public Personne(int vitesse, String pseudo, Rectangle hitBox) {
 		super(hitBox,"Joueur");
-		this.vitesse = vitesse*3;
+		this.vitesse = vitesse;
 		this.pseudo = pseudo;
 		
 	}
