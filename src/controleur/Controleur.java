@@ -86,6 +86,7 @@ public class Controleur {
 		
 		//Vue
 		vue = new CarteVue(listPanel);
+		moteur.addObserver(vue);
 		fenetre.setContentPane(vue);
 		
 		//listener

@@ -1,5 +1,6 @@
 package vue;
 import java.awt.Color;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
@@ -44,15 +45,30 @@ public class CarteVue extends JPanel implements Observer{
 		}
 		
 	}
-	
 
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object obj) {
 		
+		HashMap<String, Object> data = (HashMap<String, Object>) obj;
+		if( data.containsKey("deplacer") ){
+			
+			deplacer((HashMap<String, Object>)data.get("deplacer"));
+		}
 	}
 
-	
+	/**
+	 * Permet de déplacer un panel parmit
+	 * la liste de panel
+	 * @param data
+	 */
+	private void deplacer(HashMap<String, Object> data){
+		Point point = (Point)data.get("point");
+		int id = (int)data.get("id");
+		
+		JPanel panel = listPanel.get(id);
+		panel.setLocation(point);
+	}
 
 
 }

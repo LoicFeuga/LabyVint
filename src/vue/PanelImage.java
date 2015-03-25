@@ -1,6 +1,5 @@
 package vue;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -9,8 +8,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import com.sun.xml.internal.ws.api.server.SDDocument;
 
 /**
  * Cette classe permet de visualiser une image sur un Panel.
@@ -39,6 +36,7 @@ public class PanelImage extends JPanel{
 		}
 		
 		setBounds(rect);
+		setOpaque(false);
 	}
 	
 	@Override
