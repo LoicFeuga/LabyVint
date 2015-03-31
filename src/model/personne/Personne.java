@@ -7,9 +7,9 @@ import model.implement.IDeplacable;
 import model.objet.ObjetCollision;
 
 public class Personne extends ObjetCollision implements IDeplacable {
-	
+
 	public static final int DEFAULT_VITESSE = 5;
-	
+
 	/**
 	 * vitesse de déplacement
 	 */
@@ -23,10 +23,10 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	 * Constructeur de personne
 	 */
 	public Personne(int vitesse, String pseudo, Rectangle hitBox) {
-		super(hitBox,"Joueur");
+		super(hitBox, "Joueur");
 		this.vitesse = vitesse;
 		this.pseudo = pseudo;
-		
+
 	}
 
 	/**
@@ -68,16 +68,27 @@ public class Personne extends ObjetCollision implements IDeplacable {
 
 	@Override
 	public void deplacer(Direction direction) {
-		
-		if(direction == Direction.EST){
-			hitBox.x+= vitesse;
-		}else if(direction == Direction.OUEST){
 
-			hitBox.x-= vitesse;
-		}else if(direction == Direction.NORD){
-			hitBox.y-= vitesse;
-		}else if(direction == Direction.SUD){
-			hitBox.y+= vitesse;
+		if (direction == Direction.NEST) {
+			hitBox.x += vitesse;
+			hitBox.y -= vitesse;
+		} else if (direction == Direction.NOUEST) {
+			hitBox.x -= vitesse;
+			hitBox.y -= vitesse;
+		} else if (direction == Direction.SEST) {
+			hitBox.x += vitesse;
+			hitBox.y += vitesse;
+		} else if (direction == Direction.SOUEST) {
+			hitBox.x -= vitesse;
+			hitBox.y += vitesse;
+		} else if (direction == Direction.EST) {
+			hitBox.x += vitesse;
+		} else if (direction == Direction.OUEST) {
+			hitBox.x -= vitesse;
+		} else if (direction == Direction.NORD) {
+			hitBox.y -= vitesse;
+		} else if (direction == Direction.SUD) {
+			hitBox.y += vitesse;
 		}
 	}
 
