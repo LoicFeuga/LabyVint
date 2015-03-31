@@ -25,7 +25,7 @@ public class Carte {
 	public boolean estEnCollision(ObjetCollision objA){
 		for(int i = 0; i < listObjetCollision.size(); i++){
 			ObjetCollision objB = listObjetCollision.get(i);
-			if( objA != objB  && objB.isTouch(objA.getPosition())){
+			if( objA != objB  && objB.isTouch(objA.getHitBox())){
 				return false;
 			}
 		}
