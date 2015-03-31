@@ -15,6 +15,7 @@ import controleur.VFichier;
 import jeu.Parser;
 import model.objet.Mur;
 import model.objet.ObjetCollision;
+import model.objet.Porte;
 import model.personne.Joueur;
 
 /**
@@ -142,6 +143,7 @@ public class TestGenerateur {
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
 		if (Type.Mur.getCouleur().equals(couleur)) return new Mur(rect);
 		else if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, "Default", rect);
+		else if( Type.Porte.getCouleur().equals(couleur) ) return new Porte(rect); 
 
 		return null;
 	}
@@ -152,7 +154,8 @@ public class TestGenerateur {
 	public enum Type {
 		
 		Mur(Color.black),
-		Joueur(Color.blue);
+		Joueur(Color.blue),
+		Porte(Color.green);
 		
 		private Color couleur;
 

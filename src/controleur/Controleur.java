@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import jeu.Parser;
-import model.Direction;
 import model.Moteur;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
@@ -18,6 +17,7 @@ import model.personne.Joueur;
 import vue.CarteVue;
 import vue.Mur;
 import vue.PanelImage;
+import vue.Porte;
 
 /**
  * Le controleur
@@ -49,27 +49,6 @@ public class Controleur {
 		// init
 		initMoteur(listObj, nomJoueur);
 		initVue(listPanel);
-
-	}
-
-	public void moveLeft() {
-		moteur.getJoueur().deplacer(Direction.OUEST);
-		moteur.update();
-	}
-
-	public void moveRight() {
-		moteur.getJoueur().deplacer(Direction.EST);
-		moteur.update();
-	}
-
-	public void moveUp() {
-		moteur.getJoueur().deplacer(Direction.NORD);
-		moteur.update();
-	}
-
-	public void moveDown() {
-		moteur.getJoueur().deplacer(Direction.SUD);
-		moteur.update();
 	}
 
 	/**
@@ -186,9 +165,18 @@ public class Controleur {
 				listPanel.put(obj.getId(), 
 						new PanelImage(CHEMIN_IMAGE_JOUEUR, obj.getHitBox()));
 			}
+			else if(  Type.Porte.name().equals(obj.getNom()) ){
+				listPanel.put(obj.getId(), new Porte(obj.getHitBox()));
+			}
 			
 		}
 		
 		return listPanel;
+	}
+	
+	// ------------------------------------------- GETTER
+	
+	public Moteur getMoteur(){
+		return moteur;
 	}
 }

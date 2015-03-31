@@ -114,12 +114,12 @@ public class ObjetCollision {
 	 *  
 	 * @return
 	 */
-	public int getNbTotalObjet() {
-		return this.nbTotalObjet;
+	public static int getNbTotalObjet() {
+		return nbTotalObjet;
 	}
 
-	public void setNbTotalObjet(int aNbTotalObjet) {
-		this.nbTotalObjet = aNbTotalObjet;
+	public static void setNbTotalObjet(int aNbTotalObjet) {
+		nbTotalObjet = aNbTotalObjet;
 	}
 
 	/**
@@ -229,13 +229,14 @@ public class ObjetCollision {
 		if( Type.Mur.name().equals(type) )return new Mur(rect);
 		if( Type.Joueur.name().equals(type) )return new Joueur(Personne.DEFAULT_VITESSE, "DEFAULT",rect);
 		if( Type.Ennemis.name().equals(type) )return new Ennemis(Personne.DEFAULT_VITESSE, rect);
+		if( Type.Porte.name().equals(type) )return new Porte(rect);
 		
 		return new ObjetCollision(rect);
 	}
 	
 	////////////////////////////////////ENUM
 	public enum Type{
-		ObjetCollision, Bloc, Cle, Mur,
+		ObjetCollision, Bloc, Cle, Mur, Porte,
 		Joueur, Ennemis;
 	}
 }

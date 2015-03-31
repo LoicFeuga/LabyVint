@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import model.objet.ObjetCollision;
@@ -18,22 +16,16 @@ public class Carte {
 	}
 	
 	/**
-	 * Permet de savoir si la nouvelle position de hitBox 
-	 *  peut être accepté
-	 *  
-	 * C'est à dire, si aucun ObjetCollision n'est pas déjà présent 
-	 * 
-	 * S'il y a un Objet, le moteur ne devrait pas update
-	 * 
-	 * Sinon il pourra
-	 * 
+	 * Permet de savoir si "objA" est en collision
+	 *  avec un des objet de la map.
 	 * 
 	 * @param hitBox celle qu'on veux tester parmis les autres objets
-	 * @return true si on peux = il y a aucun objet or false
+	 * @return true si il est en collision
 	 */
-	public boolean canMoveToNewDirection(Rectangle hitBox){
+	public boolean estEnCollision(ObjetCollision objA){
 		for(int i = 0; i < listObjetCollision.size(); i++){
-			if(listObjetCollision.get(i).isTouch(new Point((int) ((int)hitBox.getX()+25.0),(int)hitBox.getY()+25))){
+			ObjetCollision objB = listObjetCollision.get(i);
+			if( objA != objB  && objB.isTouch(objA.getPosition())){
 				return false;
 			}
 		}

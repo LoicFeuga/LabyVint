@@ -3,12 +3,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
-import java.util.Vector;
 
 import model.objet.ObjetCollision;
 import model.personne.Joueur;
-import model.personne.Personne;
-import controleur.Controleur;
 
 public class Moteur extends Observable {
 
@@ -31,27 +28,65 @@ public class Moteur extends Observable {
 	}
 
 	/**
+	 * Permet de mettre a jour la vue.
 	 * 
-			//"deplacer"->"point"->Point(x,y);
-			//			->"id"->id
+	 * HashMap : "deplacer"->Point
+	 *                 "id"->int
 	 */
 	public void update() {
-		//Si le joueur peux bouger
-
-		if(carte.canMoveToNewDirection(joueur.getHitBox()) ){
-			HashMap<String, HashMap<String, Object> >send = new HashMap();
-			HashMap<String, Object> description = new HashMap();
+		HashMap<String, HashMap<String, Object>> send = new HashMap<>();
+		HashMap<String, Object> description = new HashMap<>();
 			
-			description.put("point", joueur.getDefaultPosition());
-			description.put("id",joueur.getId());
-			
-			send.put("deplacer", description);
-			setChanged();
-			notifyObservers(send);
-		}else{
-			joueur.annulerDeplacement();
+		description.put("point", joueur.getDefaultPosition());
+		description.put("id",joueur.getId());
+		
+		send.put("deplacer", description);
+		
+		setChanged();
+		notifyObservers(send);
+	}
+	
+	public void moveJoueur(Direction direction){
+		
+		if( joueurEstDeplacable(direction) ){
+			joueur.deplacer(direction);
+			update();
 		}
 	}
 
-
+	private boolean joueurEstDeplacable(Direction direction){
+		if( direction == null || Direction.NONE.equals(direction)){
+			return false;
+		}
+		
+		int vit = joueur.getVitesse();
+		Rectangle hitBoxJoueur =  joueur.getHitBox();
+		Rectangle hitBox = new Rectangle();
+		int x = hitBoxJoueur.x, y = hitBoxJoueur.y;
+		if(Direction.NORD.equals(direction)){
+			x += hitBoxJoueur.width/2;
+			y += hitBoxJoueur.height/2 - vit;
+			hitBox.setBounds(x, y, 1, hitBoxJoueur.height/2);
+		}
+		else if(Direction.SUD.equals(direction)){
+			x += hitBoxJoueur.width/2;
+			y += vit;
+			hitBox.setBounds(x, y, 1, hitBoxJoueur.height/2);
+		}
+		else if(Direction.EST.equals(direction)){
+			y += hitBoxJoueur.height/2;
+			x +=  vit;
+			hitBox.setBounds(x, y, hitBoxJoueur.width/2, 1);
+		}
+		else{
+			y += hitBoxJoueur.height/2;
+			x +=  hitBoxJoueur.width/2 - vit;
+			hitBox.setBounds(x, y, hitBoxJoueur.width/2, 1);
+		}
+		
+		joueur.setHitBox(hitBox);
+		boolean r =  carte.estEnCollision(joueur);
+		joueur.setHitBox(hitBoxJoueur);
+		return r;
+	}
 }

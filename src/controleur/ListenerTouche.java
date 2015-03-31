@@ -3,7 +3,7 @@ package controleur;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+import model.Direction;
 
 public class ListenerTouche implements KeyListener{
 	private Controleur createur;
@@ -16,30 +16,21 @@ public class ListenerTouche implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		if(key == KeyEvent.VK_LEFT){
-			System.out.println("left");
-			createur.moveLeft();
+			createur.getMoteur().moveJoueur(Direction.OUEST);
 		}else if(key == KeyEvent.VK_RIGHT){
-			System.out.println("right");
-			createur.moveRight();
+			createur.getMoteur().moveJoueur(Direction.EST);
 		}else if(key == KeyEvent.VK_DOWN){
-			System.out.println("down");
-			createur.moveDown();
+			createur.getMoteur().moveJoueur(Direction.SUD);
 		}else if(key == KeyEvent.VK_UP){
-			System.out.println("up");
-			createur.moveUp();
+			createur.getMoteur().moveJoueur(Direction.NORD);
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent e) {}
+	
 
 }

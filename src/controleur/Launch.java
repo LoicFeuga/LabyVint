@@ -1,7 +1,5 @@
 package controleur;
 
-
-
 public class Launch {
 	private Controleur controleur;
 
