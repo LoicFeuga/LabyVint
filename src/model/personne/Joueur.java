@@ -44,9 +44,9 @@ public class Joueur extends Personne {
 	 */
 	public void annulerDeplacement(){
 		if(derniereDirection == Direction.EST){
-			deplacer(Direction.EST);
-		}else if(derniereDirection == Direction.OUEST){
 			deplacer(Direction.OUEST);
+		}else if(derniereDirection == Direction.OUEST){
+			deplacer(Direction.EST);
 		}else if(derniereDirection == Direction.NORD){
 			deplacer(Direction.SUD);
 		}else if(derniereDirection == Direction.SUD){
