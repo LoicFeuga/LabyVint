@@ -11,11 +11,11 @@ public class Objet extends ObjetCollision implements IRamassable {
 	
 	public Objet(Rectangle hitBox, String nom) {
 		super(hitBox, nom);
-		this.nom = nom;
+		this.nomType = nom;
 	}
 
 	public String getPseudo() {
-		return this.nom;
+		return this.nomType;
 	}
 
 	/**

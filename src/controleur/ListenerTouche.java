@@ -20,6 +20,9 @@ public class ListenerTouche implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
+		if( key == KeyEvent.VK_DELETE){
+			createur.nextLevel();
+		}
 		if (key == KeyEvent.VK_LEFT) {
 			g = true;
 		}

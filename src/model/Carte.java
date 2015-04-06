@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import model.objet.ObjetCollision;
-
+import model.objet.ObjetCollision.Type;
 
 
 public class Carte {
@@ -30,6 +30,26 @@ public class Carte {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Renvoie le 1er élement que l'on trouve contenant le "type".
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public ObjetCollision searchFirstType(Type type){
+		if( type == null ){
+			return null;
+		}
+		
+		for( ObjetCollision obj : listObjetCollision ){
+			if( type.name().equals( obj.getNomType() ) ){
+				return obj;
+			}
+		}
+		
+		return null;
 	}
 	
 }

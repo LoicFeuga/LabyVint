@@ -14,18 +14,13 @@ public class Personne extends ObjetCollision implements IDeplacable {
 	 * vitesse de déplacement
 	 */
 	private int vitesse;
-	/**
-	 * nom
-	 */
-	private String pseudo;
 
 	/**
 	 * Constructeur de personne
 	 */
-	public Personne(int vitesse, String pseudo, Rectangle hitBox) {
-		super(hitBox, "Joueur");
+	public Personne(int vitesse, Rectangle hitBox) {
+		super(hitBox, Type.Personne.name());
 		this.vitesse = vitesse;
-		this.pseudo = pseudo;
 
 	}
 
@@ -46,24 +41,6 @@ public class Personne extends ObjetCollision implements IDeplacable {
 
 	public void setVitesse(int vitesse) {
 		this.vitesse = vitesse;
-	}
-
-	/**
-	 * getteur de nom
-	 * 
-	 * @return nom
-	 */
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	/**
-	 * setteur de nom
-	 * 
-	 * @param pseudo
-	 */
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
 	}
 
 	@Override

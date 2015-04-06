@@ -1,31 +1,23 @@
 package model;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 
-import model.objet.ObjetCollision;
+import model.objet.ObjetCollision.Type;
 import model.personne.Joueur;
 
 public class Moteur extends Observable {
 
-	//private ArrayList<Personne> listePersonne = new ArrayList<Personne>();
+	private String nomJoueur;
 	private Joueur joueur;
-	private Carte carte;
+	private HashMap<Integer, Carte> listCarte;
+	private int level;
 
-	public Moteur(ArrayList<ObjetCollision> list, Joueur joueur) {
-		carte = new Carte(list);
-		//listePersonne = new ArrayList();
-		this.joueur = joueur;
-		//listePersonne.add(j);
+	public Moteur(HashMap<Integer, Carte> listCarteMoteur, String nomJoueur) {
+		listCarte = listCarteMoteur;
+		this.nomJoueur = nomJoueur;
 	}
 
-	/**
-	 * @return the joueur
-	 */
-	public Joueur getJoueur() {
-		return joueur;
-	}
 
 	/**
 	 * Permet de mettre a jour la vue.
@@ -33,7 +25,7 @@ public class Moteur extends Observable {
 	 * HashMap : "deplacer"->Point
 	 *                 "id"->int
 	 */
-	public void update() {
+	private void updateMove() {
 		HashMap<String, HashMap<String, Object>> send = new HashMap<>();
 		HashMap<String, Object> description = new HashMap<>();
 			
@@ -46,14 +38,23 @@ public class Moteur extends Observable {
 		notifyObservers(send);
 	}
 	
+	/**
+	 * Permet de bouger le joueur dans une direction.
+	 * @param direction
+	 */
 	public void moveJoueur(Direction direction){
 		
 		if( joueurEstDeplacable(direction) ){
 			joueur.deplacer(direction);
-			update();
+			updateMove();
 		}
 	}
 
+	/**
+	 * Permet de savoir sur le joueur est déplacable
+	 * @param direction
+	 * @return
+	 */
 	private boolean joueurEstDeplacable(Direction direction){
 		if( direction == null || Direction.NONE.equals(direction)){
 			return false;
@@ -76,8 +77,47 @@ public class Moteur extends Observable {
 		}
 		
 		joueur.setHitBox(hitBox);
-		boolean r =  carte.estEnCollision(joueur);
+		boolean r =  getCarteCourante().estEnCollision(joueur);
 		joueur.setHitBox(hitBoxJoueur);
 		return r;
+	}
+	
+	/**
+	 * Retourne la carte courante.
+	 * @return
+	 */
+	public Carte getCarteCourante(){
+		return listCarte.get(level);
+	}
+	
+	/**
+	 * Permet de passer au niveau suivant.
+	 * @return false si le jeu est fini.
+	 */
+	public boolean nextLevel(){
+		level++;
+		
+		if(  !listCarte.containsKey(level)){
+			return false;
+		}
+		
+		joueur = (Joueur) getCarteCourante().searchFirstType(Type.Joueur);
+		return true;
+	}
+	
+	/**
+	 * Permet de récupérer l'indice du niveau actuel.
+	 * @return
+	 */
+	public int getLevel(){
+		return level;
+	}
+	
+	/**
+	 * Renvoie le nom du joueur.
+	 * @return
+	 */
+	public String getNomJoueur(){
+		return nomJoueur;
 	}
 }

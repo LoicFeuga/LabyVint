@@ -26,21 +26,24 @@ import model.personne.Joueur;
  * 
  * @author Nicoletti Sébastien
  */
-public class TestGenerateur {
+public final class TestGenerateur {
+	
+	private static final String PATH_IMAGE = "./data/image/cartes/";
+	private static final String PATH_JSON = "./data/cartes/";
 
 	private BufferedImage image = null;
-	
 	private int nbCaseLargeur;
-	
 	private int nbCaseHauteur;
 
 	public TestGenerateur() {
-		initImage();
-		List<ObjetCollision> listObjetC = initListCollision();
-		String json = toJSON(listObjetC);
-		System.out.println(json);
-
-		VFichier.sauvegardeFichierTexte(CreerImageGrille.NOM + ".json", json);
+		File dossierImage = new File(PATH_IMAGE);
+		for (File fichierImage : dossierImage.listFiles()){
+			initImage(fichierImage);
+			List<ObjetCollision> listObjetC = initListCollision();
+			String nom = fichierImage.getName();
+			nom = nom.substring(0,nom.lastIndexOf("."));
+			VFichier.sauvegardeFichierTexte(PATH_JSON + nom, toJSON(listObjetC));
+		}
 	}
 
 	/**
@@ -48,10 +51,9 @@ public class TestGenerateur {
 	 * Permet de chercher l'image de test.
 	 * 
 	 */
-	private void initImage() {
+	private void initImage(File fichier) {
 		try {
-			image = ImageIO.read(new File(CreerImageGrille.NOM + "."
-					+ CreerImageGrille.FORMAT));
+			image = ImageIO.read(fichier);
 		} catch (IOException e) {
 			System.out.println("Erreur chargement image...");
 			System.exit(1);
@@ -119,7 +121,7 @@ public class TestGenerateur {
 			descObj.put("y", obj.getHitBox().y);
 			descObj.put("largeur", obj.getHitBox().width);
 			descObj.put("hauteur", obj.getHitBox().height);
-			descObj.put("type", obj.getNom());
+			descObj.put("type", obj.getNomType());
 
 			objCollisions.add(descObj);
 		}
@@ -142,7 +144,7 @@ public class TestGenerateur {
 	 */
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
 		if (Type.Mur.getCouleur().equals(couleur)) return new Mur(rect);
-		else if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, "Default", rect);
+		else if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, rect);
 		else if( Type.Porte.getCouleur().equals(couleur) ) return new Porte(rect); 
 
 		return null;

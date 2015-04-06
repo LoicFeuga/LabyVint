@@ -9,10 +9,11 @@ public class Ennemis extends Personne {
 	/**
 	 * Constructeur de Ennemis
 	 * @param vitesse
-	 * @param nom
+	 * @param nomType
 	 */
 	public Ennemis(int vitesse, Rectangle hitBox) {
-		super(vitesse, "Ennemis", hitBox);
+		super(vitesse, hitBox);
+		super.nomType = Type.Ennemis.name();
 	}
 
 	/**

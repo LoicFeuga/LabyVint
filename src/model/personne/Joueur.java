@@ -21,12 +21,13 @@ public class Joueur extends Personne {
 	/**
 	 * Constructeur de Joueur
 	 * @param vitesse de déplacement [0;10] 0 pour immobile, 5 normal
-	 * @param nom du joueur
+	 * @param nomType du joueur
 	 */
-	public Joueur(int vitesse, String nom, Rectangle hitBox) {
-		super(vitesse, nom,hitBox);
+	public Joueur(int vitesse, Rectangle hitBox) {
+		super(vitesse,hitBox);
 		listeObjet = new ArrayList<Objet>();
 		derniereDirection = Direction.NONE;
+		super.nomType = Type.Joueur.name();
 	}
 
 	/**

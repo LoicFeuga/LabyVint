@@ -2,6 +2,7 @@ package controleur;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import jeu.Parser;
+import model.Carte;
 import model.Moteur;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
-import model.personne.Joueur;
 import vue.CarteVue;
 import vue.Mur;
 import vue.PanelImage;
@@ -26,36 +27,48 @@ import vue.Porte;
  */
 public class Controleur {
 	
-	private static final String CHEMIN_MAP = "data/image/map/Map.json";
+	private static final String PATH_JSON = "./data/cartes/";
 	private static final String CHEMIN_IMAGE_JOUEUR = "data/image/joueur3.png";
+	private static final String NOM = "NOM";
 	
 	//CONTROLEUR
 	private ListenerTouche touche;
 	
 	//VUE
 	private JFrame fenetre;
-	private CarteVue vue;
+	private HashMap<Integer, CarteVue> listCarteVue;
 	
 	//MOTEUR
 	private Moteur moteur;
-	private Joueur joueur;
 
-	public Controleur(String nomJoueur) {
+	public Controleur(String nomJoueur) {	
+		init();
+		nextLevel();
+	}
+	
+	private void init(){
+		listCarteVue = new HashMap<>();
+		HashMap<Integer, Carte> listCarteMoteur = new HashMap<>();
 		
-		HashMap<String, Object> jsonHashMap = initJson(CHEMIN_MAP);
-		List<ObjetCollision> listObj = initObjetCollision(jsonHashMap);
-		HashMap<Integer, JPanel> listPanel = toListPanel(listObj); 
+		File dossierCarte = new File(PATH_JSON);
+		for( File fichier : dossierCarte.listFiles() ){
+			int id = Integer.parseInt(fichier.getName());
+			HashMap<String, Object> jsonHashMap = initJson(fichier.getPath());
+			
+			ArrayList<ObjetCollision> objCollision = initObjetCollision(jsonHashMap);
+			listCarteMoteur.put(id, new Carte(objCollision));
+			listCarteVue.put(id, new CarteVue(toListPanel(objCollision)) ); 
+		}
 		
-		// init
-		initMoteur(listObj, nomJoueur);
-		initVue(listPanel);
+		initFrame();
+		moteur = new Moteur(listCarteMoteur, NOM);
 	}
 
 	/**
 	 * Permet d'initialiser la fenetre et la carte
 	 * 
 	 */
-	private void initVue(HashMap<Integer, JPanel> listPanel) {
+	private void initFrame() {
 		//Frame
 		fenetre = new JFrame("LabyVint");
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,28 +76,12 @@ public class Controleur {
 		fenetre.setSize((int)(dim.getWidth()), (int)(dim.getHeight()));
 		fenetre.setLocationRelativeTo(null);
 		
-		//Vue
-		vue = new CarteVue(listPanel);
-		moteur.addObserver(vue);
-		fenetre.setContentPane(vue);
-		
 		//listener
 		touche = new ListenerTouche(this);
 		fenetre.addKeyListener(touche);
 		
 		//init
 		fenetre.setVisible(true);
-	}
-
-	/**
-	 * Permet d'initialiser le moteur.
-	 * 
-	 * @param nomJoueur
-	 * @param listObj
-	 */
-	private void initMoteur(List<ObjetCollision> listObj, String nomJoueur) {
-		joueur.setPseudo(nomJoueur);
-		moteur = new Moteur((ArrayList<ObjetCollision>)listObj, joueur);
 	}
 	
 	/**
@@ -108,7 +105,7 @@ public class Controleur {
 		String json = VFichier.chargementFichierTexte(chemin);
 		
 		if( json == null || json.isEmpty() ){
-			System.err.println("ERROR: Controleur.initJson | chargement du fichier:" + CHEMIN_MAP );
+			System.err.println("ERROR: Controleur.initJson | chargement du fichier:" + chemin );
 		}
 		
 		return Parser.jsonDecoding(json);
@@ -123,22 +120,17 @@ public class Controleur {
 	 * @return  List<ObjetCollision>
 	 */
 	@SuppressWarnings("unchecked")
-	private List<ObjetCollision> initObjetCollision(HashMap<String, Object> hm){
+	private ArrayList<ObjetCollision> initObjetCollision(HashMap<String, Object> hm){
 		if( hm == null || hm.isEmpty() ){
 			return null;
 		}
 		
-		List<ObjetCollision> listObj = new ArrayList<>();
+		ArrayList<ObjetCollision> listObj = new ArrayList<>();
 		List<HashMap<String, Object>> carte = (List<HashMap<String, Object>>) hm.get("carte");
 		
 		for(int i = 0; i < carte.size(); i++){
 			HashMap<String, Object> descObj = carte.get(i);
 			ObjetCollision obj = ObjetCollision.createObjetCollision(descObj);
-			
-			if( Type.Joueur.name().equals(obj.getNom()) ){
-				joueur = (Joueur) obj;
-			}
-			
 			listObj.add(obj);
 		}
 		
@@ -158,20 +150,37 @@ public class Controleur {
 		HashMap<Integer, JPanel> listPanel = new HashMap<>();
 		
 		for( ObjetCollision obj : listObj){
-			if( Type.Mur.name().equals(obj.getNom()) ){
+			if( Type.Mur.name().equals(obj.getNomType()) ){
 				listPanel.put(obj.getId(), new Mur(obj.getHitBox()) );
 			}
-			else if( Type.Joueur.name().equals(obj.getNom()) ){
+			else if( Type.Joueur.name().equals(obj.getNomType()) ){
 				listPanel.put(obj.getId(), 
 						new PanelImage(CHEMIN_IMAGE_JOUEUR, obj.getHitBox()));
 			}
-			else if(  Type.Porte.name().equals(obj.getNom()) ){
+			else if(  Type.Porte.name().equals(obj.getNomType()) ){
 				listPanel.put(obj.getId(), new Porte(obj.getHitBox()));
 			}
 			
 		}
 		
 		return listPanel;
+	}
+	
+	/**
+	 * Permet de passer au niveau suivant.
+	 */
+	public void nextLevel(){
+		moteur.deleteObserver(listCarteVue.get(moteur.getLevel()));
+		if( moteur.nextLevel() ){
+			fenetre.setContentPane(listCarteVue.get(moteur.getLevel()));
+			moteur.addObserver(listCarteVue.get(moteur.getLevel()));
+			fenetre.validate();
+		}
+		else{
+			System.out.println("Le jeu est fini...");
+			fenetre.dispose();
+			System.exit(0);
+		}
 	}
 	
 	// ------------------------------------------- GETTER

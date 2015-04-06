@@ -35,7 +35,7 @@ public class ObjetCollision {
 	 */
 	private static int nbTotalObjet = 0;
 
-	protected String nom;
+	protected String nomType;
 	
 	/**
 	 * Constructeur par défaut
@@ -44,14 +44,14 @@ public class ObjetCollision {
 		id = nbTotalObjet;
 		incrementNbTotal();
 		this.hitBox = hitBox;	
-		this.nom = nom;
+		this.nomType = nom;
 	}
 
 	public ObjetCollision(Rectangle hitBox) {
 		id = nbTotalObjet;
 		incrementNbTotal();
 		this.hitBox = hitBox;	
-		this.nom = Type.ObjetCollision.name();
+		this.nomType = Type.ObjetCollision.name();
 	}
 	/**
 	 * Méthode qui permet de savoir si un objet est touché par un  
@@ -189,14 +189,10 @@ public class ObjetCollision {
 	}
 	
 	
-	public String getNom(){
-		return nom;
+	public String getNomType(){
+		return nomType;
 	}
-	
-	public void setNom(String nom){
-		this.nom = nom;
-	}
-	
+
 	/**
 	 * 
 	 * Permet de créer un objet collision avec un hashmap de description.
@@ -227,7 +223,8 @@ public class ObjetCollision {
 		if( Type.Bloc.name().equals(type) )return new Bloc(rect);
 		if( Type.Cle.name().equals(type) )return new Cle(rect);
 		if( Type.Mur.name().equals(type) )return new Mur(rect);
-		if( Type.Joueur.name().equals(type) )return new Joueur(Personne.DEFAULT_VITESSE, "DEFAULT",rect);
+		if( Type.Personne.name().equals(type) )return new Personne(Personne.DEFAULT_VITESSE ,rect);
+		if( Type.Joueur.name().equals(type) )return new Joueur(Personne.DEFAULT_VITESSE ,rect);
 		if( Type.Ennemis.name().equals(type) )return new Ennemis(Personne.DEFAULT_VITESSE, rect);
 		if( Type.Porte.name().equals(type) )return new Porte(rect);
 		
@@ -237,6 +234,6 @@ public class ObjetCollision {
 	////////////////////////////////////ENUM
 	public enum Type{
 		ObjetCollision, Bloc, Cle, Mur, Porte,
-		Joueur, Ennemis;
+		Personne, Joueur, Ennemis;
 	}
 }
