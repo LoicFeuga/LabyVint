@@ -44,6 +44,8 @@ public final class TestGenerateur {
 			nom = nom.substring(0,nom.lastIndexOf("."));
 			VFichier.sauvegardeFichierTexte(PATH_JSON + nom, toJSON(listObjetC));
 		}
+		
+		System.out.println("Ok!!!");
 	}
 
 	/**

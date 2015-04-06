@@ -22,7 +22,7 @@ public class CreerImageGrille {
 	public static int TAILLE_CARRE = 50;
 	
 	/** The Constant NOM. */
-	public static final String NOM = "data\\image\\map\\Map";
+	public static final String NOM = "data/image/Map";
 	
 	/** The Constant FORMAT. */
 	public static final String FORMAT = "bmp";

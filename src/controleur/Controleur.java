@@ -18,7 +18,6 @@ import model.objet.ObjetCollision.Type;
 import vue.CarteVue;
 import vue.Mur;
 import vue.PanelImage;
-import vue.Porte;
 
 /**
  * Le controleur
@@ -28,7 +27,8 @@ import vue.Porte;
 public class Controleur {
 	
 	private static final String PATH_JSON = "./data/cartes/";
-	private static final String CHEMIN_IMAGE_JOUEUR = "data/image/joueur3.png";
+	private static final String CHEMIN_IMAGE_JOUEUR = "data/image/joueur.png";
+	private static final String CHEMIN_IMAGE_PORTE = "data/image/door.png";
 	private static final String NOM = "NOM";
 	
 	//CONTROLEUR
@@ -158,7 +158,8 @@ public class Controleur {
 						new PanelImage(CHEMIN_IMAGE_JOUEUR, obj.getHitBox()));
 			}
 			else if(  Type.Porte.name().equals(obj.getNomType()) ){
-				listPanel.put(obj.getId(), new Porte(obj.getHitBox()));
+				listPanel.put(obj.getId(), 
+						new PanelImage(CHEMIN_IMAGE_PORTE, obj.getHitBox()) );
 			}
 			
 		}
