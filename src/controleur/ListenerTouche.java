@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import model.Direction;
+import model.Son;
 
 public class ListenerTouche implements KeyListener {
 	private Controleur createur;
@@ -70,7 +71,7 @@ public class ListenerTouche implements KeyListener {
 		if (key == KeyEvent.VK_UP) {
 			h = false;
 		}
-
+		Son.stopToPlay();
 	}
 
 	@Override
