@@ -62,30 +62,31 @@ public class Moteur extends Observable {
 		
 		int vit = joueur.getVitesse();
 		Rectangle hitBoxJoueur =  joueur.getHitBox();
-		Rectangle hitBox = (Rectangle) hitBoxJoueur.clone();
+		Rectangle hitBox = new Rectangle(hitBoxJoueur.x, hitBoxJoueur.y + hitBoxJoueur.height/2,
+				hitBoxJoueur.width, hitBoxJoueur.height/2);
 		if(Direction.NEST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y - vit);
+			hitBox.setLocation(hitBox.x + vit, hitBox.y - vit);
 		}
 		else if(Direction.NOUEST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x -vit, hitBoxJoueur.y - vit );
+			hitBox.setLocation(hitBox.x -vit, hitBox.y - vit );
 		}
 		else if(Direction.SEST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y + vit);
+			hitBox.setLocation(hitBox.x + vit, hitBox.y + vit);
 		}
 		else if(Direction.SOUEST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x - vit, hitBoxJoueur.y + vit);
+			hitBox.setLocation(hitBox.x - vit, hitBox.y + vit);
 		}
 		else if(Direction.NORD.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x, hitBoxJoueur.y - vit);
+			hitBox.setLocation(hitBox.x, hitBox.y - vit);
 		}
 		else if(Direction.SUD.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x, hitBoxJoueur.y + vit );
+			hitBox.setLocation(hitBox.x, hitBox.y + vit );
 		}
 		else if(Direction.EST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y);
+			hitBox.setLocation(hitBox.x + vit, hitBox.y);
 		}
 		else if(Direction.OUEST.equals(direction)){
-			hitBox.setLocation(hitBoxJoueur.x - vit, hitBoxJoueur.y);
+			hitBox.setLocation(hitBox.x - vit, hitBox.y);
 		}
 		
 		joueur.setHitBox(hitBox);
@@ -131,5 +132,9 @@ public class Moteur extends Observable {
 	 */
 	public String getNomJoueur(){
 		return nomJoueur;
+	}
+	
+	public Joueur getJoueur(){
+		return joueur;
 	}
 }

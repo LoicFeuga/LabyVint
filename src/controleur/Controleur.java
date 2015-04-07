@@ -173,8 +173,10 @@ public class Controleur {
 	public void nextLevel(){
 		moteur.deleteObserver(listCarteVue.get(moteur.getLevel()));
 		if( moteur.nextLevel() ){
-			fenetre.setContentPane(listCarteVue.get(moteur.getLevel()));
-			moteur.addObserver(listCarteVue.get(moteur.getLevel()));
+			CarteVue carte = listCarteVue.get(moteur.getLevel());
+			carte.setZOrder(moteur.getJoueur().getId(), 1);
+			fenetre.setContentPane(carte);
+			moteur.addObserver(carte);
 			fenetre.validate();
 		}
 		else{

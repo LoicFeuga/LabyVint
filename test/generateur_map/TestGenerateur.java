@@ -146,8 +146,11 @@ public final class TestGenerateur {
 	 */
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
 		if (Type.Mur.getCouleur().equals(couleur)) return new Mur(rect);
-		else if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, rect);
-		else if( Type.Porte.getCouleur().equals(couleur) ) return new Porte(rect); 
+		else{
+			rect.setSize((int)rect.getWidth()*1, (int)rect.getHeight()*2);
+			if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, rect);
+			else if( Type.Porte.getCouleur().equals(couleur) ) return new Porte(rect); 
+		}
 
 		return null;
 	}

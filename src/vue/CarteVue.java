@@ -70,4 +70,8 @@ public class CarteVue extends JPanel implements Observer{
 	}
 
 
+	public void setZOrder(int id, int z){
+		JPanel panel = listPanel.get(id);
+		setComponentZOrder(panel, z);
+	}
 }

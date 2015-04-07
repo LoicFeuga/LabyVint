@@ -8,6 +8,7 @@ import model.Son;
 
 public class ListenerTouche implements KeyListener {
 	private Controleur createur;
+	
 	private boolean h = false;
 	private boolean b = false;
 	private boolean d = false;
