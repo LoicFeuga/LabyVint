@@ -63,7 +63,19 @@ public class Moteur extends Observable {
 		int vit = joueur.getVitesse();
 		Rectangle hitBoxJoueur =  joueur.getHitBox();
 		Rectangle hitBox = (Rectangle) hitBoxJoueur.clone();
-		if(Direction.NORD.equals(direction)){
+		if(Direction.NEST.equals(direction)){
+			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y - vit);
+		}
+		else if(Direction.NOUEST.equals(direction)){
+			hitBox.setLocation(hitBoxJoueur.x -vit, hitBoxJoueur.y - vit );
+		}
+		else if(Direction.SEST.equals(direction)){
+			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y + vit);
+		}
+		else if(Direction.SOUEST.equals(direction)){
+			hitBox.setLocation(hitBoxJoueur.x - vit, hitBoxJoueur.y + vit);
+		}
+		else if(Direction.NORD.equals(direction)){
 			hitBox.setLocation(hitBoxJoueur.x, hitBoxJoueur.y - vit);
 		}
 		else if(Direction.SUD.equals(direction)){
@@ -72,7 +84,7 @@ public class Moteur extends Observable {
 		else if(Direction.EST.equals(direction)){
 			hitBox.setLocation(hitBoxJoueur.x + vit, hitBoxJoueur.y);
 		}
-		else{
+		else if(Direction.OUEST.equals(direction)){
 			hitBox.setLocation(hitBoxJoueur.x - vit, hitBoxJoueur.y);
 		}
 		
