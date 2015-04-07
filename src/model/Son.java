@@ -110,7 +110,8 @@ public class Son  extends Thread {
     	needToStop =true;
 
     }
-    public static void playPom(){
+    @SuppressWarnings("deprecation")
+	public static void playPom(){
     	needToStop = false;
     	if(inPlaying == true){
     		inPlaying = false;

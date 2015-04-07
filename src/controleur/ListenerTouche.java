@@ -2,81 +2,84 @@ package controleur;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import model.Direction;
 import model.Son;
 
 public class ListenerTouche implements KeyListener {
-	private Controleur createur;
+	private static final long TIME = 20;
 	
-	private boolean h = false;
-	private boolean b = false;
-	private boolean d = false;
-	private boolean g = false;
+	private Controleur createur;
+	private HashMap<Direction, Boolean> directions;
+	
+	// ------------------------------------------- Timer
+	private Timer timer;
+	private TimerTask timerTask = new TimerTask() {
+		@Override
+		public void run() {
+			Iterator<Direction> i = directions.keySet().iterator();
+			while( i.hasNext() ){
+				Direction d = i.next();
+				if( directions.get(d) == true ){
+					createur.getMoteur().moveJoueur(d);
+				}
+			}
+			
+		}
+	};
+	// ------------------------------------------- 
 
-	public ListenerTouche(Controleur createur) {
+	public ListenerTouche(final Controleur createur) {
 		this.createur = createur;
+		
+		//init directions
+		directions = new HashMap<>();
+		for( Direction dir : Direction.values() ){
+			directions.put(dir, false);
+		}
+		
+		//Timer
+		timer = new Timer();
+		timer.schedule(timerTask, 0,TIME);
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 
+		//change lev
 		if( key == KeyEvent.VK_DELETE){
 			createur.nextLevel();
+			return;
 		}
-		if (key == KeyEvent.VK_LEFT) {
-			g = true;
-		}
-		if (key == KeyEvent.VK_RIGHT) {
-			d = true;
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			b = true;
-		}
-		if (key == KeyEvent.VK_UP) {
-			h = true;
-		}
-
-		if (h && d) {
-			createur.getMoteur().moveJoueur(Direction.NEST);
-		} else if (h && g) {
-			createur.getMoteur().moveJoueur(Direction.NOUEST);
-		} else if (b && d) {
-			createur.getMoteur().moveJoueur(Direction.SEST);
-		} else if (b && g) {
-			createur.getMoteur().moveJoueur(Direction.SOUEST);
-		} else if (g) {
-			createur.getMoteur().moveJoueur(Direction.OUEST);
-		} else if (d) {
-			createur.getMoteur().moveJoueur(Direction.EST);
-		} else if (b) {
-			createur.getMoteur().moveJoueur(Direction.SUD);
-		} else if (h) {
-			createur.getMoteur().moveJoueur(Direction.NORD);
+		
+		Direction d = Direction.getDirection(key);	
+		if( d != null && !Direction.NONE.equals(d) ){
+			directions.put(d, true);
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
-		if (key == KeyEvent.VK_LEFT) {
-			g = false;
+		
+		Direction d = Direction.getDirection(key);	
+		if( d != null && !Direction.NONE.equals(d) ){
+			directions.put(d, false);
 		}
-		if (key == KeyEvent.VK_RIGHT) {
-			d = false;
-		}
-		if (key == KeyEvent.VK_DOWN) {
-			b = false;
-		}
-		if (key == KeyEvent.VK_UP) {
-			h = false;
-		}
+		
 		Son.stopToPlay();
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
 
+	public void arreter(){
+		timer.cancel();
+	}
 }

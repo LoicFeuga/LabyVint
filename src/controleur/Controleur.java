@@ -182,6 +182,7 @@ public class Controleur {
 		else{
 			System.out.println("Le jeu est fini...");
 			fenetre.dispose();
+			touche.arreter();
 			System.exit(0);
 		}
 	}

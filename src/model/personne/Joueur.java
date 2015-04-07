@@ -11,6 +11,7 @@ public class Joueur extends Personne {
 	/**
 	 * listeObjet
 	 */
+	@SuppressWarnings("unused")
 	private ArrayList<Objet> listeObjet;
 	
 	/**

@@ -1,6 +1,7 @@
 package controleur;
 
 public class Launch {
+	@SuppressWarnings("unused")
 	private Controleur controleur;
 
 	public Launch() {

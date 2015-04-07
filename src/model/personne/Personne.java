@@ -45,20 +45,7 @@ public class Personne extends ObjetCollision implements IDeplacable {
 
 	@Override
 	public void deplacer(Direction direction) {
-
-		if (direction == Direction.NEST) {
-			hitBox.x += vitesse;
-			hitBox.y -= vitesse;
-		} else if (direction == Direction.NOUEST) {
-			hitBox.x -= vitesse;
-			hitBox.y -= vitesse;
-		} else if (direction == Direction.SEST) {
-			hitBox.x += vitesse;
-			hitBox.y += vitesse;
-		} else if (direction == Direction.SOUEST) {
-			hitBox.x -= vitesse;
-			hitBox.y += vitesse;
-		} else if (direction == Direction.EST) {
+		if (direction == Direction.EST) {
 			hitBox.x += vitesse;
 		} else if (direction == Direction.OUEST) {
 			hitBox.x -= vitesse;
