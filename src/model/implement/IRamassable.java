@@ -4,7 +4,6 @@ import model.objet.Objet;
 
 public interface IRamassable {
 
-	public Objet ramasser();
-
+	public Objet onRamasser();
 	public boolean estRamassable();
 }

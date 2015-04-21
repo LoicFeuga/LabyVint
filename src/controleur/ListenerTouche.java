@@ -8,7 +8,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Direction;
+import model.Moteur;
 import model.Son;
+import model.objet.Objet;
+import model.objet.ObjetCollision;
+import model.objet.ObjetCollision.Type;
 
 public class ListenerTouche implements KeyListener {
 	private static final long TIME = 20;
@@ -25,14 +29,35 @@ public class ListenerTouche implements KeyListener {
 			while( i.hasNext() ){
 				Direction d = i.next();
 				if( directions.get(d) == true ){
-					createur.getMoteur().moveJoueur(d);
+					moveJoueur(d);
 				}
 			}
 			
 		}
 	};
+	
+	private void moveJoueur(Direction direction){
+		Moteur moteur = Moteur.getMoteur();
+		ObjetCollision objC =  moteur.joueurEstDeplacable(direction);
+		if( objC == null ){
+			moteur.moveJoueur(direction);
+			Son.playPas();
+		}
+		else{
+			Objet obj = (Objet) objC;
+			if( obj.estRamassable() ){
+				moteur.getJoueur().ramasser(obj);
+			}
+			else if( obj.getNomType().equals(Type.Porte.name()) ){
+				createur.nextLevel();
+			}
+			else{
+				Son.playPom();
+			}
+		}
+	}
+	
 	// ------------------------------------------- 
-
 	public ListenerTouche(final Controleur createur) {
 		this.createur = createur;
 		

@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import controleur.VFichier;
 import jeu.Parser;
+import model.objet.Cle;
 import model.objet.Mur;
 import model.objet.ObjetCollision;
 import model.objet.Porte;
@@ -28,8 +29,8 @@ import model.personne.Joueur;
  */
 public final class TestGenerateur {
 	
-	private static final String PATH_IMAGE = "./data/image/cartes/";
-	private static final String PATH_JSON = "./data/cartes/";
+	private static final String PATH_IMAGE = "./ressources/images/cartes/";
+	private static final String PATH_JSON = "./ressources/cartes/";
 
 	private BufferedImage image = null;
 	private int nbCaseLargeur;
@@ -146,6 +147,7 @@ public final class TestGenerateur {
 	 */
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
 		if (Type.Mur.getCouleur().equals(couleur)) return new Mur(rect);
+		else if( Type.Cle.getCouleur().equals(couleur) ) return new Cle(rect);
 		else{
 			rect.setSize((int)rect.getWidth()*1, (int)rect.getHeight()*2);
 			if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, rect);
@@ -162,7 +164,8 @@ public final class TestGenerateur {
 		
 		Mur(Color.black),
 		Joueur(Color.blue),
-		Porte(Color.green);
+		Porte(Color.green),
+		Cle(Color.YELLOW);
 		
 		private Color couleur;
 

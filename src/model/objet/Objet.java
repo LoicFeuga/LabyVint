@@ -2,6 +2,7 @@ package model.objet;
 
 import java.awt.Rectangle;
 
+import model.Moteur;
 import model.implement.IRamassable;
 
 public class Objet extends ObjetCollision implements IRamassable {
@@ -22,9 +23,10 @@ public class Objet extends ObjetCollision implements IRamassable {
 	 * Permet de ramasser l'objet support
 	 * 
 	 */
-	public Objet ramasser() {
-		return this;
-				
+	public Objet onRamasser() {
+		Moteur moteur = Moteur.getMoteur();
+		moteur.removeObjet(this);
+		return this;		
 	}
 
 	/**

@@ -26,9 +26,10 @@ import vue.PanelImage;
  */
 public class Controleur {
 	
-	private static final String PATH_JSON = "./data/cartes/";
-	private static final String CHEMIN_IMAGE_JOUEUR = "data/image/joueur.png";
-	private static final String CHEMIN_IMAGE_PORTE = "data/image/door.png";
+	private static final String PATH_JSON = "./ressources/cartes/";
+	private static final String CHEMIN_IMAGE_JOUEUR = "./ressources/images/joueur.png";
+	private static final String CHEMIN_IMAGE_PORTE = "./ressources/images/door.png";
+	private static final String CHEMIN_IMAGE_CLE = "./ressources/images/cle.png";
 	private static final String NOM = "NOM";
 	
 	//CONTROLEUR
@@ -37,9 +38,6 @@ public class Controleur {
 	//VUE
 	private JFrame fenetre;
 	private HashMap<Integer, CarteVue> listCarteVue;
-	
-	//MOTEUR
-	private Moteur moteur;
 
 	public Controleur(String nomJoueur) {	
 		init();
@@ -61,7 +59,7 @@ public class Controleur {
 		}
 		
 		initFrame();
-		moteur = new Moteur(listCarteMoteur, NOM);
+		Moteur.creerMoteur(listCarteMoteur, NOM);
 	}
 
 	/**
@@ -161,7 +159,10 @@ public class Controleur {
 				listPanel.put(obj.getId(), 
 						new PanelImage(CHEMIN_IMAGE_PORTE, obj.getHitBox()) );
 			}
-			
+			else if(  Type.Cle.name().equals(obj.getNomType()) ){
+				listPanel.put(obj.getId(), 
+						new PanelImage(CHEMIN_IMAGE_CLE, obj.getHitBox()) );
+			}
 		}
 		
 		return listPanel;
@@ -171,6 +172,7 @@ public class Controleur {
 	 * Permet de passer au niveau suivant.
 	 */
 	public void nextLevel(){
+		Moteur moteur = Moteur.getMoteur();
 		moteur.deleteObserver(listCarteVue.get(moteur.getLevel()));
 		if( moteur.nextLevel() ){
 			CarteVue carte = listCarteVue.get(moteur.getLevel());
@@ -187,9 +189,4 @@ public class Controleur {
 		}
 	}
 	
-	// ------------------------------------------- GETTER
-	
-	public Moteur getMoteur(){
-		return moteur;
-	}
 }

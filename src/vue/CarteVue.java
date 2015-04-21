@@ -8,8 +8,6 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
-
-
 public class CarteVue extends JPanel implements Observer{
 
 	private static final long serialVersionUID = 1L;
@@ -53,6 +51,11 @@ public class CarteVue extends JPanel implements Observer{
 		HashMap<String, Object> data = (HashMap<String, Object>) obj;
 		if( data.containsKey("deplacer") ){
 			deplacer((HashMap<String, Object>)data.get("deplacer"));
+		}
+		else if( data.containsKey("remove") ){
+			int id = (int) data.get("remove");
+			remove(listPanel.remove(id));
+			repaint();
 		}
 	}
 

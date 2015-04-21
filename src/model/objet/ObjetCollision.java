@@ -184,7 +184,7 @@ public class ObjetCollision {
 	/**
 	 * Augmente le nombre maximal d'objet
 	 */
-	public void incrementNbTotal() {
+	private void incrementNbTotal() {
 		nbTotalObjet++;
 	}
 	

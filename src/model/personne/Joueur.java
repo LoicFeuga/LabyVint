@@ -11,7 +11,6 @@ public class Joueur extends Personne {
 	/**
 	 * listeObjet
 	 */
-	@SuppressWarnings("unused")
 	private ArrayList<Objet> listeObjet;
 	
 	/**
@@ -60,17 +59,11 @@ public class Joueur extends Personne {
 	 * ajout d'objet
 	 * @param objet
 	 */
-	public void ajoutObjet(Objet objet) {
-		throw new UnsupportedOperationException();
+	public void ramasser(Objet objet) {
+		listeObjet.add(objet);
+		objet.onRamasser();
 	}
 
-	/**
-	 * utilisation d'un objet
-	 * @param objet
-	 */
-	public void utiliser(Objet objet) {
-		throw new UnsupportedOperationException();
-	}
 	
 	public Direction getDirection(){
 		return derniereDirection;

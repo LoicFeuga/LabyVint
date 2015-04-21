@@ -9,7 +9,6 @@ import model.objet.ObjetCollision.Type;
 public class Carte {
 	private ArrayList<ObjetCollision> listObjetCollision;
 	
-	
 	public Carte(ArrayList<ObjetCollision> list){
 		this.listObjetCollision = list;
 		
@@ -22,14 +21,14 @@ public class Carte {
 	 * @param hitBox celle qu'on veux tester parmis les autres objets
 	 * @return true si il est en collision
 	 */
-	public boolean estEnCollision(ObjetCollision objA){
+	public ObjetCollision estEnCollision(ObjetCollision objA){
 		for(int i = 0; i < listObjetCollision.size(); i++){
 			ObjetCollision objB = listObjetCollision.get(i);
 			if( objA != objB  && objB.isTouch(objA.getHitBox())){
-				return false;
+				return objB;
 			}
 		}
-		return true;
+		return null;
 	}
 	
 	/**
@@ -48,8 +47,14 @@ public class Carte {
 				return obj;
 			}
 		}
-		
 		return null;
 	}
 	
+	/**
+	 * Permet de supprimer un objet collision.
+	 * @param obj
+	 */
+	public void removeObjCollision(ObjetCollision obj){
+		listObjetCollision.remove(obj);
+	}
 }

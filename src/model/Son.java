@@ -15,6 +15,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 public class Son  extends Thread {
+	private static final String SON_PAS = "./ressources/sons/pas.wav";
+	private static final String SON_POM = "./ressources/sons/pom.wav";
 	private static boolean needToStop = false;
 	private static Thread playWave;
 	private static boolean  inPlaying = false;
@@ -99,7 +101,7 @@ public class Son  extends Thread {
     	needToStop = false;
     	if(inPlaying == false){
     		inPlaying = true;
-    		 playWave= new Son("C:\\Users\\user\\_Java\\_Projects\\Devint\\LabyVint\\data\\son\\pas.wav");
+    		 playWave= new Son(SON_PAS);
     		playWave.start();
     		
     	}
@@ -116,7 +118,7 @@ public class Son  extends Thread {
     	if(inPlaying == true){
     		inPlaying = false;
     		playWave.stop();
-    		 playWave= new Son("C:\\Users\\user\\_Java\\_Projects\\Devint\\LabyVint\\data\\son\\pom.wav");
+    		 playWave= new Son(SON_POM);
     		playWave.start();
     		
     	}

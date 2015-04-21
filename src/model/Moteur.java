@@ -3,22 +3,35 @@ import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Observable;
 
+import model.objet.Objet;
+import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
 import model.personne.Joueur;
 
 public class Moteur extends Observable {
 
+	private static Moteur moteur = null;
 	private String nomJoueur;
 	private Joueur joueur;
 	private HashMap<Integer, Carte> listCarte;
 	private int level;
 
-	public Moteur(HashMap<Integer, Carte> listCarteMoteur, String nomJoueur) {
+	// ------------------------------------------- Singleton
+	private Moteur(HashMap<Integer, Carte> listCarteMoteur, String nomJoueur) {
 		listCarte = listCarteMoteur;
 		this.nomJoueur = nomJoueur;
 	}
+	
+	public static Moteur creerMoteur( HashMap<Integer, Carte> listCarteMoteur, String nomJoueur ){
+		moteur = new Moteur(listCarteMoteur, nomJoueur);
+		return moteur;
+	}
 
-
+	public static Moteur getMoteur(){
+		return moteur;
+	}
+	
+	// ------------------------------------------- Update
 	/**
 	 * Permet de mettre a jour la vue.
 	 * 
@@ -39,25 +52,37 @@ public class Moteur extends Observable {
 	}
 	
 	/**
+	 * Permet de mettre a jour la vue.
+	 * 
+	 * HashMap : "deplacer"->Point
+	 *                 "id"->int
+	 */
+	private void updateRamasser(Objet obj) {
+		HashMap<String, Integer> send = new HashMap<>();
+		send.put("remove", obj.getId());
+		
+		setChanged();
+		notifyObservers(send);
+	}
+	
+	// ------------------------------------------- Methodes
+	/**
 	 * Permet de bouger le joueur dans une direction.
 	 * @param direction
 	 */
 	public void moveJoueur(Direction direction){
-		
-		if( joueurEstDeplacable(direction) ){
-			joueur.deplacer(direction);
-			updateMove();
-		}
+		joueur.deplacer(direction);
+		updateMove();
 	}
 
 	/**
-	 * Permet de savoir sur le joueur est déplacable
+	 * Permet de savoir sur le joueur est déplacable.
 	 * @param direction
-	 * @return
+	 * @return l'objet en collision, null si l'objet n'est pas en collision
 	 */
-	private boolean joueurEstDeplacable(Direction direction){
+	public ObjetCollision joueurEstDeplacable(Direction direction){
 		if( direction == null || Direction.NONE.equals(direction)){
-			return false;
+			return null;
 		}
 		
 		int vit = joueur.getVitesse();
@@ -78,17 +103,9 @@ public class Moteur extends Observable {
 		}
 		
 		joueur.setHitBox(hitBox);
-		boolean r =  getCarteCourante().estEnCollision(joueur);
+		ObjetCollision obj =  getCarteCourante().estEnCollision(joueur);
 		joueur.setHitBox(hitBoxJoueur);
-		return r;
-	}
-	
-	/**
-	 * Retourne la carte courante.
-	 * @return
-	 */
-	public Carte getCarteCourante(){
-		return listCarte.get(level);
+		return obj;
 	}
 	
 	/**
@@ -106,6 +123,13 @@ public class Moteur extends Observable {
 		return true;
 	}
 	
+	public void removeObjet(Objet obj){
+		Carte carteCourante = getCarteCourante();
+		carteCourante.removeObjCollision(obj);
+		updateRamasser(obj);
+	}
+	
+	// ------------------------------------------- GETTER
 	/**
 	 * Permet de récupérer l'indice du niveau actuel.
 	 * @return
@@ -122,7 +146,19 @@ public class Moteur extends Observable {
 		return nomJoueur;
 	}
 	
+	/**
+	 * Renvoie le joueur.
+	 * @return
+	 */
 	public Joueur getJoueur(){
 		return joueur;
+	}
+	
+	/**
+	 * Retourne la carte courante.
+	 * @return
+	 */
+	public Carte getCarteCourante(){
+		return listCarte.get(level);
 	}
 }
