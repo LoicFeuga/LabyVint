@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import controleur.VFichier;
 import jeu.Parser;
+import model.objet.Bloc;
 import model.objet.Cle;
 import model.objet.Mur;
 import model.objet.ObjetCollision;
@@ -148,6 +149,7 @@ public final class TestGenerateur {
 	private ObjetCollision colorToObjectCollision(Color couleur, Rectangle rect) {
 		if (Type.Mur.getCouleur().equals(couleur)) return new Mur(rect);
 		else if( Type.Cle.getCouleur().equals(couleur) ) return new Cle(rect);
+		else if( Type.Bloc.getCouleur().equals(couleur) ) return new Bloc(rect);
 		else{
 			rect.setSize((int)rect.getWidth()*1, (int)rect.getHeight()*2);
 			if( Type.Joueur.getCouleur().equals(couleur) ) return new Joueur(5, rect);
@@ -161,11 +163,11 @@ public final class TestGenerateur {
 	 * The Enum Type.
 	 */
 	public enum Type {
-		
 		Mur(Color.black),
 		Joueur(Color.blue),
 		Porte(Color.green),
-		Cle(Color.YELLOW);
+		Cle(Color.yellow),
+		Bloc(Color.orange);
 		
 		private Color couleur;
 

@@ -30,6 +30,7 @@ public class Controleur {
 	private static final String CHEMIN_IMAGE_JOUEUR = "./ressources/images/joueur.png";
 	private static final String CHEMIN_IMAGE_PORTE = "./ressources/images/door.png";
 	private static final String CHEMIN_IMAGE_CLE = "./ressources/images/cle.png";
+	private static final String CHEMIN_IMAGE_BLOC = "./ressources/images/caisse.png";
 	private static final String NOM = "NOM";
 	
 	//CONTROLEUR
@@ -163,6 +164,10 @@ public class Controleur {
 				listPanel.put(obj.getId(), 
 						new PanelImage(CHEMIN_IMAGE_CLE, obj.getHitBox()) );
 			}
+			else if(  Type.Bloc.name().equals(obj.getNomType()) ){
+				listPanel.put(obj.getId(), 
+						new PanelImage(CHEMIN_IMAGE_BLOC, obj.getHitBox()) );
+			}
 		}
 		
 		return listPanel;
@@ -176,7 +181,7 @@ public class Controleur {
 		moteur.deleteObserver(listCarteVue.get(moteur.getLevel()));
 		if( moteur.nextLevel() ){
 			CarteVue carte = listCarteVue.get(moteur.getLevel());
-			carte.setZOrder(moteur.getJoueur().getId(), 1);
+			initZOrder(carte);
 			fenetre.setContentPane(carte);
 			moteur.addObserver(carte);
 			fenetre.validate();
@@ -189,4 +194,16 @@ public class Controleur {
 		}
 	}
 	
+	
+	private void initZOrder(CarteVue carte){
+		Moteur moteur = Moteur.getMoteur();
+		carte.setZOrder(moteur.getJoueur().getId(), 1);
+		
+		List<ObjetCollision> listObjC = moteur.getObjetTouchable() ;
+		
+		for ( int i = 0; i < listObjC.size(); i++ ){
+			ObjetCollision objc = listObjC.get(i);
+			carte.setZOrder(objc.getId(), 2);
+		}
+	}
 }

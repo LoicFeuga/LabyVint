@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
@@ -56,5 +57,35 @@ public class Carte {
 	 */
 	public void removeObjCollision(ObjetCollision obj){
 		listObjetCollision.remove(obj);
+	}
+	
+	/**
+	 * Permet de rajouter un objet collision dans la liste de collision.
+	 * @param obj
+	 */
+	public void addObjCollision(ObjetCollision obj){
+		listObjetCollision.add(obj);
+	}
+	
+	/**
+	 * Permet de récupérer les objets qui sont utilisable part le joueur (cles, bloc, etc..), 
+	 * sur la carte courante.
+	 * @return
+	 */
+	public List<ObjetCollision> getObjetTouchable(){
+		List<ObjetCollision> listObj = new ArrayList<>();
+		
+		for( int i = 0; i < listObjetCollision.size(); i++){
+			ObjetCollision objC = listObjetCollision.get(i);
+			if( !objC.getNomType().equals(Type.Mur.name()) &&
+				!objC.getNomType().equals(Type.Joueur.name()) &&
+				!objC.getNomType().equals(Type.Ennemis.name()) ){
+				
+				listObj.add(objC);
+			}
+			
+		}
+		
+		return listObj;
 	}
 }

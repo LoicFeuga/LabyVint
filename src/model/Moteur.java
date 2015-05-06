@@ -1,6 +1,8 @@
 package model;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 
 import model.objet.Objet;
@@ -38,12 +40,12 @@ public class Moteur extends Observable {
 	 * HashMap : "deplacer"->Point
 	 *                 "id"->int
 	 */
-	private void updateMove() {
+	private void updateMove(ObjetCollision objC) {
 		HashMap<String, HashMap<String, Object>> send = new HashMap<>();
 		HashMap<String, Object> description = new HashMap<>();
 			
-		description.put("point", joueur.getDefaultPosition());
-		description.put("id",joueur.getId());
+		description.put("point", objC.getDefaultPosition());
+		description.put("id",objC.getId());
 		
 		send.put("deplacer", description);
 		
@@ -66,13 +68,29 @@ public class Moteur extends Observable {
 	}
 	
 	// ------------------------------------------- Methodes
+	public void moveObjet(ObjetCollision objC, Direction direction){
+		Rectangle hitBox = objC.getHitBox();
+		int vitesse = joueur.getVitesse();
+		
+		if (direction == Direction.EST) {
+			hitBox.x += vitesse;
+		} else if (direction == Direction.OUEST) {
+			hitBox.x -= vitesse;
+		} else if (direction == Direction.NORD) {
+			hitBox.y -= vitesse;
+		} else if (direction == Direction.SUD) {
+			hitBox.y += vitesse;
+		}
+		
+		updateMove(objC);
+	}
 	/**
 	 * Permet de bouger le joueur dans une direction.
 	 * @param direction
 	 */
 	public void moveJoueur(Direction direction){
 		joueur.deplacer(direction);
-		updateMove();
+		updateMove(joueur);
 	}
 
 	/**
@@ -81,14 +99,24 @@ public class Moteur extends Observable {
 	 * @return l'objet en collision, null si l'objet n'est pas en collision
 	 */
 	public ObjetCollision joueurEstDeplacable(Direction direction){
+		return objetCollEstDeplacable(joueur, direction);
+	}
+	
+	/**
+	 * Permet de savoir sur un objet en collision est déplacable.
+	 * @param objColl
+	 * @param direction
+	 * @return
+	 */
+	public ObjetCollision objetCollEstDeplacable(ObjetCollision objColl, Direction direction){
 		if( direction == null || Direction.NONE.equals(direction)){
 			return null;
 		}
 		
 		int vit = joueur.getVitesse();
-		Rectangle hitBoxJoueur =  joueur.getHitBox();
-		Rectangle hitBox = new Rectangle(hitBoxJoueur.x, hitBoxJoueur.y + hitBoxJoueur.height/2,
-				hitBoxJoueur.width, hitBoxJoueur.height/2);
+		Rectangle hitBoxObjColl =  objColl.getHitBox();
+		Rectangle hitBox = new Rectangle(hitBoxObjColl.x, hitBoxObjColl.y + hitBoxObjColl.height/2,
+				hitBoxObjColl.width, hitBoxObjColl.height/2);
 		if(Direction.NORD.equals(direction)){
 			hitBox.setLocation(hitBox.x, hitBox.y - vit);
 		}
@@ -102,9 +130,12 @@ public class Moteur extends Observable {
 			hitBox.setLocation(hitBox.x - vit, hitBox.y);
 		}
 		
-		joueur.setHitBox(hitBox);
-		ObjetCollision obj =  getCarteCourante().estEnCollision(joueur);
-		joueur.setHitBox(hitBoxJoueur);
+		getCarteCourante().removeObjCollision(joueur);
+		objColl.setHitBox(hitBox);
+		ObjetCollision obj =  getCarteCourante().estEnCollision(objColl);
+		
+		objColl.setHitBox(hitBoxObjColl);
+		getCarteCourante().addObjCollision(joueur);
 		return obj;
 	}
 	
@@ -130,6 +161,16 @@ public class Moteur extends Observable {
 	}
 	
 	// ------------------------------------------- GETTER
+	
+	/**
+	 * Permet de récupérer les objets qui sont utilisable part le joueur (cles, bloc, etc..), 
+	 * sur  la carte courante.
+	 * @return
+	 */
+	public List<ObjetCollision> getObjetTouchable(){
+		return getCarteCourante().getObjetTouchable();
+	}
+	
 	/**
 	 * Permet de récupérer l'indice du niveau actuel.
 	 * @return

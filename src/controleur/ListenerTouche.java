@@ -45,15 +45,14 @@ public class ListenerTouche implements KeyListener {
 		}
 		else{
 			Objet obj = (Objet) objC;
-			if( obj.estRamassable() ){
-				moteur.getJoueur().ramasser(obj);
+			if( obj.estRamassable() )moteur.getJoueur().ramasser(obj);
+			else if( obj.getNomType().equals(Type.Porte.name()) )createur.nextLevel();
+			else if ( obj.getNomType().equals(Type.Bloc.name()) &&
+					 moteur.objetCollEstDeplacable(objC, direction) == null){
+					moteur.moveJoueur(direction);
+					moteur.moveObjet(objC, direction);
 			}
-			else if( obj.getNomType().equals(Type.Porte.name()) ){
-				createur.nextLevel();
-			}
-			else{
-				Son.playPom();
-			}
+			else Son.playPom();
 		}
 	}
 	
