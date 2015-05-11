@@ -15,7 +15,7 @@ import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
 
 public class ListenerTouche implements KeyListener {
-	private static final long TIME = 20;
+	private static final long TIME = 15;
 	
 	private Controleur createur;
 	private HashMap<Direction, Boolean> directions;
@@ -36,12 +36,23 @@ public class ListenerTouche implements KeyListener {
 		}
 	};
 	
+	private int getNbDirection(){
+		int nb = 0;
+		
+		Iterator<Direction> i = directions.keySet().iterator();
+		while(i.hasNext()){
+			if( directions.get(i.next()) )
+				nb++;
+		}
+		return nb;
+	}
+	
 	private void moveJoueur(Direction direction){
 		Moteur moteur = Moteur.getMoteur();
 		ObjetCollision objC =  moteur.joueurEstDeplacable(direction);
 		if( objC == null ){
 			moteur.moveJoueur(direction);
-			Son.playPas();
+			createur.jouerSonPas();
 		}
 		else{
 			Objet obj = (Objet) objC;
@@ -52,7 +63,9 @@ public class ListenerTouche implements KeyListener {
 					moteur.moveJoueur(direction);
 					moteur.moveObjet(objC, direction);
 			}
-			else Son.playPom();
+			else if( getNbDirection() < 2){ //evite que les sons se mélangent
+				createur.jouerSonBoum();
+			}
 		}
 	}
 	

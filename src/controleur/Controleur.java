@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import jeu.Parser;
 import model.Carte;
 import model.Moteur;
+import model.Son;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
 import vue.CarteVue;
@@ -33,8 +34,18 @@ public class Controleur {
 	private static final String CHEMIN_IMAGE_BLOC = "./ressources/images/caisse.png";
 	private static final String NOM = "NOM";
 	
+	//SON
+	private static final String SON_PAS = "pas";
+	private static final String SON_POM = "pom";
+	private static final String PATH_SON_PAS = "./ressources/sons/pas.wav";
+	private static final String PATH_SON_POM = "./ressources/sons/pom.wav";
+	
 	//CONTROLEUR
 	private ListenerTouche touche;
+	
+	//SON
+	private Thread sonTh;
+	private Son sonCourant;
 	
 	//VUE
 	private JFrame fenetre;
@@ -205,5 +216,36 @@ public class Controleur {
 			ObjetCollision objc = listObjC.get(i);
 			carte.setZOrder(objc.getId(), 2);
 		}
+	}
+	
+	// ------------------------------------------- SON
+	private void jouerSon(String nomSon, String pathSon){
+		
+		if(sonCourant == null || sonTh == null ){
+			sonCourant = new Son(nomSon, pathSon);
+			sonTh = new Thread(sonCourant);
+			sonTh.start();
+		}
+		else{
+			
+			if( !sonCourant.getName().equals(nomSon) ){
+				Son.stopToPlay();
+				sonCourant = new Son(nomSon, pathSon);
+				sonTh = new Thread(sonCourant);
+				sonTh.start();
+			}
+			else if( !sonTh.isAlive() ){
+				sonTh = new Thread(sonCourant);
+				sonTh.start();
+			}
+		}
+	}
+	
+	public void jouerSonPas(){
+		jouerSon(SON_PAS, PATH_SON_PAS);
+	}
+	
+	public void jouerSonBoum(){
+		jouerSon(SON_POM, PATH_SON_POM);
 	}
 }

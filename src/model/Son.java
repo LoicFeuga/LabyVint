@@ -12,25 +12,22 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-
-
-public class Son  extends Thread {
-	private static final String SON_PAS = "./ressources/sons/pas.wav";
-	private static final String SON_POM = "./ressources/sons/pom.wav";
+public class Son  implements Runnable {
+	private String name;
 	private static boolean needToStop = false;
-	private static Thread playWave;
-	private static boolean  inPlaying = false;
 	private String filename;
     private Position curPosition;
     private final int EXTERNAL_BUFFER_SIZE = 524288; // 128Kb
     enum Position {LEFT, RIGHT, NORMAL};
  
-    public Son(String wavfile) {
+    public Son(String name, String wavfile) {
+    	this.name = name;
         filename = wavfile;
         curPosition = Position.NORMAL;
     }
  
     public void run() {
+    	needToStop = false;
         File soundFile = new File(filename);
         if (!soundFile.exists()) {
             System.err.println("Wave file not found: " + filename);
@@ -91,39 +88,17 @@ public class Son  extends Thread {
             return;
         } finally {
 
-            inPlaying = false;
             auline.drain();
             auline.close();
         }
     }
     
-    public static void playPas(){
-    	needToStop = false;
-    	if(inPlaying == false){
-    		inPlaying = true;
-    		 playWave= new Son(SON_PAS);
-    		playWave.start();
-    		
-    	}
-    	
-    }
-    
-    public static void stopToPlay(){
-    	needToStop =true;
-
-    }
-    @SuppressWarnings("deprecation")
-	public static void playPom(){
-    	needToStop = false;
-    	if(inPlaying == true){
-    		inPlaying = false;
-    		playWave.stop();
-    		 playWave= new Son(SON_POM);
-    		playWave.start();
-    		
-    	}
-    	
+    public String getName(){
+    	return name;
     }
  
+    public static void stopToPlay(){
+    	needToStop =true;
+    }
 }
  
