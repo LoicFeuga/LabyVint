@@ -98,6 +98,9 @@ public class ListenerTouche implements KeyListener {
 			createur.reset();
 			return;
 		}
+		else if( key == KeyEvent.VK_ESCAPE ){
+			createur.getFenetre().dispose();
+		}
 		
 		Direction d = Direction.getDirection(key);	
 		if( d != null && !Direction.NONE.equals(d) ){

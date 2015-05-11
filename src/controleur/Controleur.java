@@ -2,6 +2,8 @@ package controleur;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +44,7 @@ public class Controleur {
 	
 	//CONTROLEUR
 	private ListenerTouche touche;
+	private MenuJeu menuJeu;
 	
 	//SON
 	private Thread sonTh;
@@ -51,7 +54,8 @@ public class Controleur {
 	private JFrame fenetre;
 	private HashMap<Integer, CarteVue> listCarteVue;
 
-	public Controleur(String nomJoueur) {	
+	public Controleur(String nomJoueur, MenuJeu menuJeu) {
+		this.menuJeu = menuJeu;
 		init();
 		nextLevel();
 	}
@@ -81,7 +85,14 @@ public class Controleur {
 	private void initFrame() {
 		//Frame
 		fenetre = new JFrame("LabyVint");
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		fenetre.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				super.windowClosed(e);
+				menuJeu.setVisible(true);
+			}
+		});
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		fenetre.setSize((int)(dim.getWidth()), (int)(dim.getHeight()));
 		fenetre.setLocationRelativeTo(null);
@@ -253,5 +264,9 @@ public class Controleur {
 	
 	public void jouerSonBoum(){
 		jouerSon(SON_POM, PATH_SON_POM);
+	}
+	
+	public JFrame getFenetre(){
+		return fenetre;
 	}
 }
