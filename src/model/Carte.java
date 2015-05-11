@@ -68,7 +68,15 @@ public class Carte {
 	}
 	
 	/**
-	 * Permet de récupérer les objets qui sont utilisable part le joueur (cles, bloc, etc..), 
+	 * Permet de savoir si la carte contient l'element donnée en paramétre.
+	 * @param obj
+	 * @return true s il contient l'element
+	 */
+	public boolean containObjCollision(ObjetCollision obj){
+		return listObjetCollision.contains(obj);
+	}
+	/**
+	 * Permet de récupérer les objets qui sont utilisables part le joueur (cles, blocs, etc..), 
 	 * sur la carte courante.
 	 * @return
 	 */

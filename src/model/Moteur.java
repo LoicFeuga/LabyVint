@@ -1,6 +1,8 @@
 package model;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
@@ -16,11 +18,15 @@ public class Moteur extends Observable {
 	private Joueur joueur;
 	private HashMap<Integer, Carte> listCarte;
 	private int level;
+	
+	//RESET
+	private HashMap<ObjetCollision, Point> listReset;
 
 	// ------------------------------------------- Singleton
 	private Moteur(HashMap<Integer, Carte> listCarteMoteur, String nomJoueur) {
 		listCarte = listCarteMoteur;
 		this.nomJoueur = nomJoueur;
+		listReset = new HashMap<>();
 	}
 	
 	public static Moteur creerMoteur( HashMap<Integer, Carte> listCarteMoteur, String nomJoueur ){
@@ -53,14 +59,26 @@ public class Moteur extends Observable {
 	}
 	
 	/**
-	 * Permet de mettre a jour la vue.
+	 * Permet de cacher un objet sur la vue
 	 * 
-	 * HashMap : "deplacer"->Point
-	 *                 "id"->int
+	 * HashMap :   "id"->int
 	 */
-	private void updateRamasser(Objet obj) {
+	private void updateCacher(ObjetCollision objC) {
 		HashMap<String, Integer> send = new HashMap<>();
-		send.put("remove", obj.getId());
+		send.put("cacher", objC.getId());
+		
+		setChanged();
+		notifyObservers(send);
+	}
+	
+	/**
+	 * Permet de decacher un objet sur la vue
+	 * 
+	 * HashMap :   "id"->int
+	 */
+	private void updateDecacher(ObjetCollision objC) {
+		HashMap<String, Integer> send = new HashMap<>();
+		send.put("decacher", objC.getId());
 		
 		setChanged();
 		notifyObservers(send);
@@ -139,24 +157,75 @@ public class Moteur extends Observable {
 	}
 	
 	/**
+	 * Permet de reset le jeu
+	 */
+	public void reset(){
+		Iterator<ObjetCollision> i = listReset.keySet().iterator();
+		
+		while(i.hasNext()){
+			ObjetCollision obj = i.next();
+			Point point = listReset.get(obj);
+			obj.setPosition(point);
+			
+			if( obj.getNomType().equals(Type.Cle.name()) ){
+				Carte carte = getCarteCourante();
+				
+				if( !carte.containObjCollision(obj) ){
+					getCarteCourante().addObjCollision(obj);
+				}
+				
+				updateDecacher(obj);
+			}
+			else{
+				updateMove(obj);
+			}
+		}
+		
+		joueur.viderInventaire();
+	}
+	
+	/**
 	 * Permet de passer au niveau suivant.
 	 * @return false si le jeu est fini.
 	 */
 	public boolean nextLevel(){
 		level++;
-		
-		if(  !listCarte.containsKey(level)){
+		if( !listCarte.containsKey(level) ){
 			return false;
 		}
 		
 		joueur = (Joueur) getCarteCourante().searchFirstType(Type.Joueur);
+		
+		//Reset
+		listReset.clear();
+		saveReset();
+		
 		return true;
 	}
 	
+	/**
+	 * Permet de sauvegarder la position de chaque objets touchables (cles, blocs, etc...) 
+	 * de la carte courante.
+	 */
+	private void saveReset(){
+		List<ObjetCollision> listObj = getCarteCourante().getObjetTouchable();
+		
+		for( ObjetCollision objCol :  listObj ){
+			listReset.put(objCol, objCol.getPosition());
+		}
+		
+		listReset.put(joueur, joueur.getPosition());
+	}
+	
+	
+	/**
+	 * Permet de supprimer un objet sur la care courante.
+	 * @param obj
+	 */
 	public void removeObjet(Objet obj){
 		Carte carteCourante = getCarteCourante();
 		carteCourante.removeObjCollision(obj);
-		updateRamasser(obj);
+		updateCacher(obj);
 	}
 	
 	// ------------------------------------------- GETTER

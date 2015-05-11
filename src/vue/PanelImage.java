@@ -20,6 +20,7 @@ public class PanelImage extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private BufferedImage image;
+	private boolean estCacher;
 	
 	public PanelImage(String path, Rectangle rect) {
 		
@@ -43,9 +44,16 @@ public class PanelImage extends JPanel{
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if( image != null){
+		if( image != null && !estCacher){
 			g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		}
 	}
+	
+	public void cacher(){
+		estCacher = true;
+	}
 
+	public void decacher(){
+		estCacher = false;
+	}
 }

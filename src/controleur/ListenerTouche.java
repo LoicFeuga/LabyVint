@@ -94,6 +94,10 @@ public class ListenerTouche implements KeyListener {
 			createur.nextLevel();
 			return;
 		}
+		else if( key == KeyEvent.VK_SPACE ){
+			createur.reset();
+			return;
+		}
 		
 		Direction d = Direction.getDirection(key);	
 		if( d != null && !Direction.NONE.equals(d) ){

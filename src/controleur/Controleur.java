@@ -205,6 +205,12 @@ public class Controleur {
 		}
 	}
 	
+	/**
+	 * Permet de recommencer le niveau
+	 */
+	public void reset(){
+		Moteur.getMoteur().reset();
+	}
 	
 	private void initZOrder(CarteVue carte){
 		Moteur moteur = Moteur.getMoteur();

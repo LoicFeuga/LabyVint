@@ -52,11 +52,22 @@ public class CarteVue extends JPanel implements Observer{
 		if( data.containsKey("deplacer") ){
 			deplacer((HashMap<String, Object>)data.get("deplacer"));
 		}
-		else if( data.containsKey("remove") ){
-			int id = (int) data.get("remove");
-			remove(listPanel.remove(id));
+		else if( data.containsKey("cacher") ){
+			cacher((int)data.get("cacher"));
 			repaint();
 		}
+		else if( data.containsKey("decacher") ){
+			decacher((int)data.get("decacher"));
+			repaint();
+		}
+	}
+	
+	private void cacher(int id){
+		((PanelImage)listPanel.get(id)).cacher();
+	}
+	
+	private void decacher(int id){
+		((PanelImage)listPanel.get(id)).decacher();
 	}
 
 	/**
