@@ -29,18 +29,18 @@ import vue.PanelImage;
  */
 public class Controleur {
 	
-	private static final String PATH_JSON = "./ressources/cartes/";
-	private static final String CHEMIN_IMAGE_JOUEUR = "./ressources/images/joueur.png";
-	private static final String CHEMIN_IMAGE_PORTE = "./ressources/images/door.png";
-	private static final String CHEMIN_IMAGE_CLE = "./ressources/images/cle.png";
-	private static final String CHEMIN_IMAGE_BLOC = "./ressources/images/caisse.png";
+	private static final String PATH_JSON = "../ressources/cartes/";
+	private static final String CHEMIN_IMAGE_JOUEUR = "../ressources/images/joueur.png";
+	private static final String CHEMIN_IMAGE_PORTE = "../ressources/images/door.png";
+	private static final String CHEMIN_IMAGE_CLE = "../ressources/images/cle.png";
+	private static final String CHEMIN_IMAGE_BLOC = "../ressources/images/caisse.png";
 	private static final String NOM = "NOM";
 	
 	//SON
 	private static final String SON_PAS = "pas";
 	private static final String SON_POM = "pom";
-	private static final String PATH_SON_PAS = "./ressources/sons/pas.wav";
-	private static final String PATH_SON_POM = "./ressources/sons/pom.wav";
+	private static final String PATH_SON_PAS = "../ressources/sons/pas.wav";
+	private static final String PATH_SON_POM = "../ressources/sons/pom.wav";
 	
 	//CONTROLEUR
 	private ListenerTouche touche;

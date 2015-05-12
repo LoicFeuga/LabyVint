@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,6 +14,7 @@ import model.Son;
 import model.objet.Objet;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
+import model.personne.Joueur;
 
 public class ListenerTouche implements KeyListener {
 	private static final long TIME = 15;
@@ -49,22 +51,24 @@ public class ListenerTouche implements KeyListener {
 	
 	private void moveJoueur(Direction direction){
 		Moteur moteur = Moteur.getMoteur();
-		ObjetCollision objC =  moteur.joueurEstDeplacable(direction);
-		if( objC == null ){
+		List<ObjetCollision> listObj =  moteur.listObjCollisionJ(direction);
+		if( listObj.isEmpty() ){
 			moteur.moveJoueur(direction);
 			createur.jouerSonPas();
 		}
 		else{
-			Objet obj = (Objet) objC;
-			if( obj.estRamassable() )moteur.getJoueur().ramasser(obj);
-			else if( obj.getNomType().equals(Type.Porte.name()) )createur.nextLevel();
-			else if ( obj.getNomType().equals(Type.Bloc.name()) &&
-					 moteur.objetCollEstDeplacable(objC, direction) == null){
-					moteur.moveJoueur(direction);
-					moteur.moveObjet(objC, direction);
-			}
-			else if( getNbDirection() < 2){ //evite que les sons se mélangent
-				createur.jouerSonBoum();
+			
+			for( ObjetCollision objC : listObj){
+				Objet obj = (Objet) objC;
+				if( obj.estRamassable() )moteur.getJoueur().ramasser(obj);
+				else if( obj.getNomType().equals(Type.Porte.name()) )createur.nextLevel();
+				else if ( obj.getNomType().equals(Type.Bloc.name()) &&
+						 moteur.listObjCollision(objC, direction).isEmpty() ){
+						moteur.moveObjet(objC, direction);
+				}
+				else if( getNbDirection() < 2){ //evite que les sons se mélangent
+					createur.jouerSonBoum();
+				}
 			}
 		}
 	}

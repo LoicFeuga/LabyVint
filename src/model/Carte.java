@@ -22,14 +22,15 @@ public class Carte {
 	 * @param hitBox celle qu'on veux tester parmis les autres objets
 	 * @return true si il est en collision
 	 */
-	public ObjetCollision estEnCollision(ObjetCollision objA){
+	public List<ObjetCollision> estEnCollision(ObjetCollision objA){
+		List<ObjetCollision> listObj = new ArrayList<>();
 		for(int i = 0; i < listObjetCollision.size(); i++){
 			ObjetCollision objB = listObjetCollision.get(i);
 			if( objA != objB  && objB.isTouch(objA.getHitBox())){
-				return objB;
+				listObj.add(objB);
 			}
 		}
-		return null;
+		return listObj;
 	}
 	
 	/**

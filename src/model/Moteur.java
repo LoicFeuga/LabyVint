@@ -111,21 +111,23 @@ public class Moteur extends Observable {
 	}
 
 	/**
-	 * Permet de savoir sur le joueur est déplacable.
+	 * Retourne une liste des objets qui seront en collision avec le joueur si
+	 * le joueur se déplace dans la direction donnée en parametre.
 	 * @param direction
 	 * @return l'objet en collision, null si l'objet n'est pas en collision
 	 */
-	public ObjetCollision joueurEstDeplacable(Direction direction){
-		return objetCollEstDeplacable(joueur, direction);
+	public  List<ObjetCollision> listObjCollisionJ(Direction direction){
+		return listObjCollision(joueur, direction);
 	}
 	
 	/**
-	 * Permet de savoir sur un objet en collision est déplacable.
+	 * Retourne une liste des objets qui seront en collision avec l'objet si
+	 * l'objet se déplace dans la direction donnée en parametre.
 	 * @param objColl
 	 * @param direction
 	 * @return
 	 */
-	public ObjetCollision objetCollEstDeplacable(ObjetCollision objColl, Direction direction){
+	public List<ObjetCollision> listObjCollision(ObjetCollision objColl, Direction direction){
 		if( direction == null || Direction.NONE.equals(direction)){
 			return null;
 		}
@@ -149,11 +151,11 @@ public class Moteur extends Observable {
 		
 		getCarteCourante().removeObjCollision(joueur);
 		objColl.setHitBox(hitBox);
-		ObjetCollision obj =  getCarteCourante().estEnCollision(objColl);
+		List<ObjetCollision> listObj =  getCarteCourante().estEnCollision(objColl);
 		
 		objColl.setHitBox(hitBoxObjColl);
 		getCarteCourante().addObjCollision(joueur);
-		return obj;
+		return listObj;
 	}
 	
 	/**
