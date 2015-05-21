@@ -9,6 +9,7 @@ import java.util.Observable;
 import model.objet.Objet;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
+import model.personne.Ennemi;
 import model.personne.Joueur;
 
 public class Moteur extends Observable {
@@ -45,7 +46,7 @@ public class Moteur extends Observable {
 	 * HashMap : "deplacer"->Point
 	 *                 "id"->int
 	 */
-	private void updateMove(ObjetCollision objC) {
+	public void updateMove(ObjetCollision objC) {
 		HashMap<String, HashMap<String, Object>> send = new HashMap<>();
 		HashMap<String, Object> description = new HashMap<>();
 			
@@ -149,12 +150,11 @@ public class Moteur extends Observable {
 			hitBox.setLocation(hitBox.x - vit, hitBox.y);
 		}
 		
-		getCarteCourante().removeObjCollision(joueur);
 		objColl.setHitBox(hitBox);
 		List<ObjetCollision> listObj =  getCarteCourante().estEnCollision(objColl);
 		
 		objColl.setHitBox(hitBoxObjColl);
-		getCarteCourante().addObjCollision(joueur);
+		
 		return listObj;
 	}
 	
@@ -166,24 +166,36 @@ public class Moteur extends Observable {
 		
 		while(i.hasNext()){
 			ObjetCollision obj = i.next();
-			Point point = listReset.get(obj);
-			obj.setPosition(point);
-			
-			if( obj.getNomType().equals(Type.Cle.name()) ){
-				Carte carte = getCarteCourante();
-				
-				if( !carte.containObjCollision(obj) ){
-					getCarteCourante().addObjCollision(obj);
-				}
-				
-				updateDecacher(obj);
-			}
-			else{
-				updateMove(obj);
-			}
+			resetObjetCollision(obj);;
 		}
 		
 		joueur.viderInventaire();
+	}
+	
+	/**
+	 * Permet de remettre l'objet à son état initiale.
+	 * @param obj
+	 */
+	private void resetObjetCollision(ObjetCollision obj){
+		Point point = listReset.get(obj);
+		obj.setPosition(point);
+		
+		if( obj.getNomType().equals(Type.Cle.name()) ){
+			Carte carte = getCarteCourante();
+			
+			if( !carte.containObjCollision(obj) ){
+				getCarteCourante().addObjCollision(obj);
+			}
+			
+			updateDecacher(obj);
+			return;
+		}
+		
+		if(obj.getNomType().equals(Type.Ennemi.name())){
+			((Ennemi)obj).reset();
+		}
+			
+		updateMove(obj);
 	}
 	
 	/**
@@ -191,10 +203,18 @@ public class Moteur extends Observable {
 	 * @return false si le jeu est fini.
 	 */
 	public boolean nextLevel(){
+		if( listCarte.containsKey(level) ){
+			List<Ennemi> listEnnemi = getCarteCourante().getEnnemis();
+			for( Ennemi ennemi : listEnnemi )ennemi.stop();
+		}
+		
 		level++;
 		if( !listCarte.containsKey(level) ){
 			return false;
 		}
+		
+		List<Ennemi> listEnnemi = getCarteCourante().getEnnemis();
+		for( Ennemi ennemi : listEnnemi )ennemi.play();
 		
 		joueur = (Joueur) getCarteCourante().searchFirstType(Type.Joueur);
 		

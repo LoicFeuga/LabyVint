@@ -14,7 +14,6 @@ import model.Son;
 import model.objet.Objet;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
-import model.personne.Joueur;
 
 public class ListenerTouche implements KeyListener {
 	private static final long TIME = 15;
@@ -57,18 +56,32 @@ public class ListenerTouche implements KeyListener {
 			createur.jouerSonPas();
 		}
 		else{
-			
 			for( ObjetCollision objC : listObj){
-				Objet obj = (Objet) objC;
-				if( obj.estRamassable() )moteur.getJoueur().ramasser(obj);
-				else if( obj.getNomType().equals(Type.Porte.name()) )createur.nextLevel();
-				else if ( obj.getNomType().equals(Type.Bloc.name()) &&
-						 moteur.listObjCollision(objC, direction).isEmpty() ){
-						moteur.moveObjet(objC, direction);
-				}
-				else if( getNbDirection() < 2){ //evite que les sons se mélangent
-					createur.jouerSonBoum();
-				}
+				joueurEstEnCollision(objC, direction);
+			}
+		}
+	}
+	
+	private void joueurEstEnCollision(ObjetCollision objC, Direction direction){
+		Moteur moteur = Moteur.getMoteur();
+		
+		if( objC.getNomType().equals(Type.Ennemi.name()) ){
+			moteur.reset();
+			return;
+		}
+		
+		Objet obj = (Objet) objC;
+		if( obj.estRamassable() )
+			moteur.getJoueur().ramasser(obj);
+		else if( obj.getNomType().equals(Type.Porte.name()) )
+			createur.nextLevel();
+		else {
+			List<ObjetCollision> listObjet = moteur.listObjCollision(objC, direction);
+			listObjet.remove(moteur.getJoueur());
+			if(  obj.getNomType().equals(Type.Bloc.name()) && listObjet.isEmpty() ){
+				moteur.moveObjet(objC, direction);
+			}else if( getNbDirection() < 2){ //evite que les sons se mélangent
+				createur.jouerSonBoum();
 			}
 		}
 	}

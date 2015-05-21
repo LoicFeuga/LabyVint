@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
 
-import model.personne.Ennemis;
+import model.personne.Ennemi;
 import model.personne.Joueur;
 import model.personne.Personne;
 
@@ -225,7 +225,7 @@ public class ObjetCollision {
 		if( Type.Mur.name().equals(type) )return new Mur(rect);
 		if( Type.Personne.name().equals(type) )return new Personne(Personne.DEFAULT_VITESSE ,rect);
 		if( Type.Joueur.name().equals(type) )return new Joueur(Personne.DEFAULT_VITESSE ,rect);
-		if( Type.Ennemis.name().equals(type) )return new Ennemis(Personne.DEFAULT_VITESSE, rect);
+		if( Type.Ennemi.name().equals(type) )return new Ennemi(Personne.DEFAULT_VITESSE, rect);
 		if( Type.Porte.name().equals(type) )return new Porte(rect);
 		
 		return new ObjetCollision(rect);
@@ -234,6 +234,6 @@ public class ObjetCollision {
 	////////////////////////////////////ENUM
 	public enum Type{
 		ObjetCollision, Bloc, Cle, Mur, Porte,
-		Personne, Joueur, Ennemis;
+		Personne, Joueur, Ennemi;
 	}
 }

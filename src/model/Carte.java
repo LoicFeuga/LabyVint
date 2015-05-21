@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
+import model.personne.Ennemi;
 
 
 public class Carte {
@@ -12,7 +13,6 @@ public class Carte {
 	
 	public Carte(ArrayList<ObjetCollision> list){
 		this.listObjetCollision = list;
-		
 	}
 	
 	/**
@@ -87,8 +87,7 @@ public class Carte {
 		for( int i = 0; i < listObjetCollision.size(); i++){
 			ObjetCollision objC = listObjetCollision.get(i);
 			if( !objC.getNomType().equals(Type.Mur.name()) &&
-				!objC.getNomType().equals(Type.Joueur.name()) &&
-				!objC.getNomType().equals(Type.Ennemis.name()) ){
+				!objC.getNomType().equals(Type.Joueur.name()) ){
 				
 				listObj.add(objC);
 			}
@@ -97,4 +96,21 @@ public class Carte {
 		
 		return listObj;
 	}
+	
+	/**
+	 * Récupere les ennemis de la carte.
+	 * @return
+	 */
+	public List<Ennemi> getEnnemis(){
+		List<Ennemi> listEnnemi = new ArrayList<>();
+		
+		for(ObjetCollision obj : listObjetCollision){
+			if( obj.getNomType().equals(Type.Ennemi.name())){
+				listEnnemi.add((Ennemi)obj);
+			}
+		}
+		
+		return listEnnemi;
+	}
+	
 }

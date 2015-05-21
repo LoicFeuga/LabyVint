@@ -1,6 +1,8 @@
 package controleur;
 
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,9 +17,11 @@ import javax.swing.JPanel;
 import jeu.Parser;
 import model.Carte;
 import model.Moteur;
+import model.Pattern;
 import model.Son;
 import model.objet.ObjetCollision;
 import model.objet.ObjetCollision.Type;
+import model.personne.Ennemi;
 import vue.CarteVue;
 import vue.Mur;
 import vue.PanelImage;
@@ -29,11 +33,14 @@ import vue.PanelImage;
  */
 public class Controleur {
 	
+	private static final int SIZE_HITBOX_ENNEMI = 50;
+	
 	private static final String PATH_JSON = "../ressources/cartes/";
 	private static final String CHEMIN_IMAGE_JOUEUR = "../ressources/images/joueur.png";
 	private static final String CHEMIN_IMAGE_PORTE = "../ressources/images/door.png";
 	private static final String CHEMIN_IMAGE_CLE = "../ressources/images/cle.png";
 	private static final String CHEMIN_IMAGE_BLOC = "../ressources/images/caisse.png";
+	private static final String CHEMIN_IMAGE_ENNEMIS = "../ressources/images/joueur.png";
 	private static final String NOM = "NOM";
 	
 	//SON
@@ -70,12 +77,37 @@ public class Controleur {
 			HashMap<String, Object> jsonHashMap = initJson(fichier.getPath());
 			
 			ArrayList<ObjetCollision> objCollision = initObjetCollision(jsonHashMap);
+			getEnnemis(objCollision, jsonHashMap);
 			listCarteMoteur.put(id, new Carte(objCollision));
 			listCarteVue.put(id, new CarteVue(toListPanel(objCollision)) ); 
 		}
 		
 		initFrame();
 		Moteur.creerMoteur(listCarteMoteur, NOM);
+	}
+	
+	/**
+	 * Récupere les ennemis décrient dans le json et les places dans "objCollision".
+	 * @param objCollision
+	 * @param jsonMap
+	 */
+	@SuppressWarnings("unchecked")
+	private void getEnnemis(ArrayList<ObjetCollision> objCollision, HashMap<String, Object> jsonMap){
+		if( ! jsonMap.containsKey("ennemis") ) return;
+		List<HashMap<String, Object>> listEnnemis = (List<HashMap<String, Object>>) jsonMap.get("ennemis");
+		for( HashMap<String, Object> ennemiDesc : listEnnemis){
+			int vitesse = (int)(long)ennemiDesc.get("vitesse");
+			
+			HashMap<String, Long> depart = (HashMap<String, Long>) ennemiDesc.get("depart");
+			Point p = new Point( (int)(long)depart.get("x"), (int)(long)depart.get("y") );
+			Rectangle hitbox = new Rectangle(p.x, p.y, SIZE_HITBOX_ENNEMI, SIZE_HITBOX_ENNEMI);
+			
+			Ennemi ennemi = new Ennemi(vitesse, hitbox);
+			Pattern pattern = new Pattern(ennemi, (List<HashMap<String, Long>>)ennemiDesc.get("deplacement") );
+			ennemi.setPattern(pattern);
+			objCollision.add(ennemi);
+		}
+		
 	}
 
 	/**
@@ -189,6 +221,10 @@ public class Controleur {
 			else if(  Type.Bloc.name().equals(obj.getNomType()) ){
 				listPanel.put(obj.getId(), 
 						new PanelImage(CHEMIN_IMAGE_BLOC, obj.getHitBox()) );
+			}
+			else if(  Type.Ennemi.name().equals(obj.getNomType()) ){
+				listPanel.put(obj.getId(), 
+						new PanelImage(CHEMIN_IMAGE_ENNEMIS, obj.getHitBox()) );
 			}
 		}
 		
