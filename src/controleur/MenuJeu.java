@@ -38,7 +38,7 @@ public class MenuJeu extends MenuAbstrait {
      * vous pouvez définir autant d'options que vous voulez
      **/
 	protected String[] nomOptions() {
-		String[] noms = {"Jeu","Quitter"};
+		String[] noms = {"Jeu","Création", "Quitter"};
 		return noms;
 	}
 
@@ -51,7 +51,11 @@ public class MenuJeu extends MenuAbstrait {
 			setVisible(false);
 			new Controleur("VJoueur", this);
 			break;
-		case 1 : System.exit(0);
+		case 1 : 
+			setVisible(false);
+			new ControleurCreation(this);
+			break;
+		case 2 : System.exit(0);
 		default: System.err.println("action non définie");
 		}
 	} 

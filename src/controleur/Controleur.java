@@ -40,7 +40,7 @@ public class Controleur {
 	private static final String CHEMIN_IMAGE_PORTE = "../ressources/images/door.png";
 	private static final String CHEMIN_IMAGE_CLE = "../ressources/images/cle.png";
 	private static final String CHEMIN_IMAGE_BLOC = "../ressources/images/caisse.png";
-	private static final String CHEMIN_IMAGE_ENNEMIS = "../ressources/images/joueur.png";
+	private static final String CHEMIN_IMAGE_ENNEMIS = "../ressources/images/ennemi.png";
 	private static final String NOM = "NOM";
 	
 	//SON
@@ -51,7 +51,7 @@ public class Controleur {
 	
 	//CONTROLEUR
 	private ListenerTouche touche;
-	private MenuJeu menuJeu;
+	private JFrame fenParent;
 	
 	//SON
 	private Thread sonTh;
@@ -61,10 +61,30 @@ public class Controleur {
 	private JFrame fenetre;
 	private HashMap<Integer, CarteVue> listCarteVue;
 
-	public Controleur(String nomJoueur, MenuJeu menuJeu) {
-		this.menuJeu = menuJeu;
+	public Controleur(String nomJoueur, JFrame fenParent) {
+		this.fenParent = fenParent;
 		init();
 		nextLevel();
+	}
+	
+	public Controleur(String nomJoueur, JFrame fenParent, String descJson) {
+		this.fenParent = fenParent;
+		initMap(descJson);
+		nextLevel();
+	}
+	
+	private void initMap(String descJson){
+		listCarteVue = new HashMap<>();
+		HashMap<Integer, Carte> listCarteMoteur = new HashMap<>();
+		
+		HashMap<String, Object> jsonHashMap = Parser.jsonDecoding(descJson);
+		ArrayList<ObjetCollision> objCollision = initObjetCollision(jsonHashMap);
+		getEnnemis(objCollision, jsonHashMap);
+		listCarteMoteur.put(1, new Carte(objCollision));
+		listCarteVue.put(1, new CarteVue(toListPanel(objCollision)) ); 
+		
+		initFrame();
+		Moteur.creerMoteur(listCarteMoteur, NOM);
 	}
 	
 	private void init(){
@@ -122,7 +142,7 @@ public class Controleur {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				super.windowClosed(e);
-				menuJeu.setVisible(true);
+				fenParent.setVisible(true);
 			}
 		});
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

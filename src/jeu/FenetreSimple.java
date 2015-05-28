@@ -1,13 +1,12 @@
 package jeu;
 
 
-import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import devintAPI.*;
+import devintAPI.FenetreAbstraite;
+import devintAPI.Preferences;
 
 /** Cette classe est un exemple d'interface pour les options
  * 

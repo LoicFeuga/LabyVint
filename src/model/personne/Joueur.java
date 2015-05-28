@@ -35,5 +35,8 @@ public class Joueur extends Personne {
 		objet.onRamasser();
 	}
 
+	public int getNbObjet(){
+		return listeObjet.size();
+	}
 	
 }

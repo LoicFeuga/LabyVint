@@ -7,7 +7,7 @@ public class Mur extends Objet {
 	 
 	public Mur(){
 		super(new Rectangle(),Type.Mur.name());
-		this.estRamassable = false;
+		estRamassable = false;
 	}
 	
 	/**
@@ -17,8 +17,7 @@ public class Mur extends Objet {
 	 */
 	public Mur(Rectangle hitBox){
 		super(hitBox,Type.Mur.name());
-		this.estRamassable = false;
-		
+		estRamassable = false;
 	}
 
 	

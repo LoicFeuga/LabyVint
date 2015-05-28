@@ -73,7 +73,7 @@ public class ListenerTouche implements KeyListener {
 		Objet obj = (Objet) objC;
 		if( obj.estRamassable() )
 			moteur.getJoueur().ramasser(obj);
-		else if( obj.getNomType().equals(Type.Porte.name()) )
+		else if( obj.getNomType().equals(Type.Porte.name()) && moteur.objectiveEstAtteind())
 			createur.nextLevel();
 		else {
 			List<ObjetCollision> listObjet = moteur.listObjCollision(objC, direction);

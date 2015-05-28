@@ -19,6 +19,7 @@ public class Moteur extends Observable {
 	private Joueur joueur;
 	private HashMap<Integer, Carte> listCarte;
 	private int level;
+	private int nbCleARamasser;
 	
 	//RESET
 	private HashMap<ObjetCollision, Point> listReset;
@@ -38,6 +39,7 @@ public class Moteur extends Observable {
 	public static Moteur getMoteur(){
 		return moteur;
 	}
+	
 	
 	// ------------------------------------------- Update
 	/**
@@ -86,6 +88,10 @@ public class Moteur extends Observable {
 	}
 	
 	// ------------------------------------------- Methodes
+	public boolean objectiveEstAtteind(){
+		return joueur.getNbObjet() == nbCleARamasser;
+	}
+	
 	public void moveObjet(ObjetCollision objC, Direction direction){
 		Rectangle hitBox = objC.getHitBox();
 		int vitesse = joueur.getVitesse();
@@ -220,20 +226,25 @@ public class Moteur extends Observable {
 		
 		//Reset
 		listReset.clear();
-		saveReset();
+		initLevel();
 		
 		return true;
 	}
 	
 	/**
 	 * Permet de sauvegarder la position de chaque objets touchables (cles, blocs, etc...) 
-	 * de la carte courante.
+	 * de la carte courante et de compter le nombre de cles a ramasser.
 	 */
-	private void saveReset(){
+	private void initLevel(){
 		List<ObjetCollision> listObj = getCarteCourante().getObjetTouchable();
+		nbCleARamasser = 0;
 		
 		for( ObjetCollision objCol :  listObj ){
 			listReset.put(objCol, objCol.getPosition());
+			
+			if( objCol.getNomType().equals(Type.Cle.name()) ){
+				nbCleARamasser++;
+			}
 		}
 		
 		listReset.put(joueur, joueur.getPosition());
