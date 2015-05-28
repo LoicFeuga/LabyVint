@@ -40,6 +40,7 @@ public class ListenersCreation implements KeyListener, MouseListener{
 		if( e.getButton() == MouseEvent.BUTTON3 ){//clic droit
 			popMenu.setLocation(e.getLocationOnScreen().x,e.getLocationOnScreen().y);
 			popMenu.setVisible(true);
+			System.out.println("clique droit");
 		}
 		else if(e.getButton() == MouseEvent.BUTTON1 
 				&& hamecon.getTypeAct() != null){//clic gauche

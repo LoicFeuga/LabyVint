@@ -43,7 +43,7 @@ public class ControleurCreation implements ActionListener{
 	private static final String CHEMIN_IMAGE_CLE = "../ressources/images/cle.png";
 	private static final String CHEMIN_IMAGE_BLOC = "../ressources/images/caisse.png";
 	private static final String CHEMIN_IMAGE_MUR = "../ressources/images/mur.png";
-	private static final String CHEMIN_IMAGE_GOMME = "../ressources/images/gomme.jpg";
+	private static final String CHEMIN_IMAGE_GOMME = "../ressources/images/gomme.png";
 	
 	private JFrame fenetre;
 	private JFrame fenParent;
@@ -135,7 +135,9 @@ public class ControleurCreation implements ActionListener{
 		JPanel panel = null;
 		Point pos = c.getLocation();
 		
-		if( objetExiste(pos.getLocation(), typeAct) )return;
+		if( objetExiste(pos, typeAct) )return;
+		
+		removeObjetColl(pos);
 		
 		if( typeAct.equals(Type.Bloc.name())){
 			Rectangle rect = new Rectangle(pos.x, pos.y, SIZE_CASE, SIZE_CASE);
@@ -183,7 +185,6 @@ public class ControleurCreation implements ActionListener{
 	private void replacePanel(Point pos, JPanel panel){
 		JPanel oldPanel = vue.getPanel(pos);
 		
-		removeObjetColl(pos);
 		vue.removePanel(oldPanel);
 		vue.addPanel(panel);
 		vue.verifierCase(listeners);
@@ -196,8 +197,9 @@ public class ControleurCreation implements ActionListener{
 	private void removeObjetColl(Point p){
 		Iterator<ObjetCollision> i = listObj.iterator();
 		while(i.hasNext()){
-			if( i.next().getPosition().equals(p) ){
-				i.remove();
+			ObjetCollision obj = i.next();
+			if( obj.getDefaultPosition().equals(p) ){
+				listObj.remove(obj);
 				return;
 			}
 		}
