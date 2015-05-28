@@ -3,6 +3,7 @@ package controleur;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -36,6 +37,7 @@ public class ControleurCreation implements ActionListener{
 	
 	private static final int SIZE_CASE = 50;
 		
+	private static final Font FONT = new Font("Arial", Font.BOLD, 20);
 	private static final String CHEMIN_IMAGE_JOUEUR = "../ressources/images/joueur.png";
 	private static final String CHEMIN_IMAGE_PORTE = "../ressources/images/door.png";
 	private static final String CHEMIN_IMAGE_CLE = "../ressources/images/cle.png";
@@ -68,16 +70,22 @@ public class ControleurCreation implements ActionListener{
 	private void initPopMenu(){
 		popMenu = new JPopupMenu();
 		JMenuItem box = new JMenuItem(Type.Bloc.name());
+		box.setFont(FONT);
 		popMenu.add(box);
 		JMenuItem cles  = new JMenuItem(Type.Cle.name());
+		cles.setFont(FONT);
 		popMenu.add(cles);
 		JMenuItem mur = new JMenuItem(Type.Mur.name());
+		mur.setFont(FONT);
 		popMenu.add(mur);
 		JMenuItem perso = new JMenuItem(Type.Joueur.name());
+		perso.setFont(FONT);
 		popMenu.add(perso);
 		JMenuItem porte = new JMenuItem(Type.Porte.name());
+		porte.setFont(FONT);
 		popMenu.add(porte);
 		JMenuItem gomme = new JMenuItem("Effacer");
+		gomme.setFont(FONT);
 		popMenu.add(gomme);
 		
 		// ------------------------------------------- listener
@@ -107,6 +115,7 @@ public class ControleurCreation implements ActionListener{
 			public void windowClosed(WindowEvent e) {
 				super.windowClosed(e);
 				fenParent.setVisible(true);
+				popMenu.setVisible(false);
 			}
 		});
 		
@@ -162,6 +171,8 @@ public class ControleurCreation implements ActionListener{
 		
 		panel.addMouseListener(listeners);
 		replacePanel(pos, panel);
+		
+		vue.repaint();
 	}
 	
 	/**
@@ -172,17 +183,10 @@ public class ControleurCreation implements ActionListener{
 	private void replacePanel(Point pos, JPanel panel){
 		JPanel oldPanel = vue.getPanel(pos);
 		
-		if( oldPanel.getHeight() > panel.getHeight() ){
-			JPanel panVide = new Case();
-			panVide.setBounds(pos.x, pos.y+SIZE_CASE, SIZE_CASE, SIZE_CASE);
-			panVide.addMouseListener(listeners);
-			vue.addPanel(panVide);
-		}
-		
 		removeObjetColl(pos);
 		vue.removePanel(oldPanel);
 		vue.addPanel(panel);
-		vue.repaint();
+		vue.verifierCase(listeners);
 	}
 	
 	/**
@@ -259,7 +263,6 @@ public class ControleurCreation implements ActionListener{
 	private Cursor creerCursor(String chemin, Point taille){
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image img = tk.getImage(chemin);
-		System.out.println(chemin);
 		return tk.createCustomCursor(img, taille, "curseur");
 	}
 

@@ -16,8 +16,18 @@ public class CreationCarteVue extends JPanel {
 	
 	private Map<Point,JPanel> listPanel;
 	
+	private int ligne;
+	private int colonne;
+	private int largeurCase;
+	private int hauteurCase;
+	
 	public CreationCarteVue(int colonne, int ligne, int largeurCase, int hauteurCase) {
 		listPanel = new HashMap<>();
+		this.ligne = ligne;
+		this.colonne = colonne;
+		this.largeurCase = largeurCase;
+		this.hauteurCase = hauteurCase;
+		
 		setLayout(new GridLayout(ligne, colonne));
 		setBackground(Color.white);
 		
@@ -64,5 +74,22 @@ public class CreationCarteVue extends JPanel {
 	
 	public JPanel getPanel(Point p){
 		return listPanel.get(p);
+	}
+	
+	public void verifierCase(MouseListener mouseListener){
+		
+		for(int y = 0 ; y < ligne; y++){
+			for( int x = 0; x < colonne; x++){
+				Point p = new Point(x*largeurCase, y*hauteurCase);
+				
+				if( !listPanel.containsKey(p) ){
+					Case c = new Case();
+					c.addMouseListener(mouseListener);
+					c.setBounds(x*largeurCase, y*hauteurCase, largeurCase, hauteurCase);
+					add(c);
+					listPanel.put(p, c);
+				}
+			}
+		}
 	}
 }

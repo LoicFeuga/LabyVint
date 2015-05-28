@@ -265,10 +265,9 @@ public class Controleur {
 			fenetre.validate();
 		}
 		else{
-			System.out.println("Le jeu est fini...");
+			//son jeu est fini
 			fenetre.dispose();
 			touche.arreter();
-			System.exit(0);
 		}
 	}
 	
