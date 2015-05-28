@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -46,8 +50,14 @@ public class Controleur {
 	//SON
 	private static final String SON_PAS = "pas";
 	private static final String SON_POM = "pom";
+	private static final String SON_AIDE = "aideF2";
+	private static final String SON_BUT = "aideF1";
+	private static final String SON_STORY = "histoire";
 	private static final String PATH_SON_PAS = "../ressources/sons/pas.wav";
 	private static final String PATH_SON_POM = "../ressources/sons/pom.wav";
+	private static final String PATH_AIDE = "../ressources/sons/aideF2.wav";
+	private static final String PATH_BUT = "../ressources/sons/aideF1.wav";
+	private static final String PATH_STORY = "../ressources/sons/Histoire.wav";
 	
 	//CONTROLEUR
 	private ListenerTouche touche;
@@ -56,6 +66,7 @@ public class Controleur {
 	//SON
 	private Thread sonTh;
 	private Son sonCourant;
+	private Clip clip;
 	
 	//VUE
 	private JFrame fenetre;
@@ -155,6 +166,8 @@ public class Controleur {
 		
 		//init
 		fenetre.setVisible(true);
+		
+		playSound(PATH_STORY);
 	}
 	
 	/**
@@ -275,6 +288,7 @@ public class Controleur {
 	 * Permet de recommencer le niveau
 	 */
 	public void reset(){
+		clip.close();
 		Moteur.getMoteur().reset();
 	}
 	
@@ -319,6 +333,32 @@ public class Controleur {
 	
 	public void jouerSonBoum(){
 		jouerSon(SON_POM, PATH_SON_POM);
+	}
+	
+	public void jouerSonAide(){
+
+    	if(clip.isRunning())
+			clip.stop();
+		playSound(PATH_AIDE);
+	}
+	
+	public void jouerSonBut(){
+
+    	if(clip.isRunning())
+			clip.stop();
+		playSound(PATH_BUT);
+	}
+	
+	public void playSound(String s) {
+	    try {
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(s).getAbsoluteFile());
+	        clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+	        clip.start();
+	    } catch(Exception ex) {
+	        System.out.println("Error with playing sound.");
+	        ex.printStackTrace();
+	    }
 	}
 	
 	public JFrame getFenetre(){

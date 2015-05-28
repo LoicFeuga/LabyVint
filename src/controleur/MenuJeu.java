@@ -68,7 +68,7 @@ public class MenuJeu extends MenuAbstrait {
 
 	// renvoie le fichier wave contenant la règle du jeu
 	protected  String wavRegleJeu() {
-		return "../ressources/sons/accueil.wav";
+		return "../ressources/sons/aideF2.wav";
 	}
 	
 }
